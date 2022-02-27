@@ -1,0 +1,178 @@
+{% extends "client/layout.html" %}
+{% load static %}
+
+
+
+{% block little %}
+
+{% endblock little %}
+
+{% block mycss %}
+<style>
+    
+        
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 360px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+
+
+
+{% block side_little %}
+ 
+{% endblock side_little %}
+
+{% block table %}
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="">Add New Product</h3>
+            <hr>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="img" class="text-dark">Select Image</label>
+                <input type="file" class="form-control" name="img" id="" required> <br>
+                <input type="text" class="form-control" placeholder="Enter Name" name="name" id="" required> <br>
+                <input type="number" class="form-control"  min="1" placeholder="Enter Price" name="price" id="" required> <br>
+                <input type="number" class="form-control"  min="1" placeholder="Total Qty" name="qty" id="" required> <br>
+                <input type="text" class="form-control" placeholder="add text" name="text" id="" > <br>
+                <button type="submit" name="prt" class="btn btn-warning">Add Product</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <h4 class="">Sale Product</h4>
+            <hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <label for="pro">Select Product</label>
+                <select name="pro" class="form-control" required>
+                    <option value="">None</option>
+                    {% if data %}
+                        {% for dt in data %}
+                            <option value="{{dt.name}}">{{dt.name}}</option>
+                        {% endfor %}
+                    {% endif %}    
+                </select> <br>
+                <input type="text" name="pname" class="form-control" placeholder="Enter Customer Name" id="" required> <br>
+                <input type="number" class="form-control"  min="10" name="pphone" placeholder="Enter Phone Number" name="price" id="" required> <br>
+                {% comment %} <input type="number" class="form-control" min="1" placeholder="Enter Price" name="pprice" id="" required> <br> {% endcomment %}
+                <input type="number" class="form-control"  min="1" placeholder="Enter Qty" name="pqty" id="" required> <br>
+                
+                <button type="submit" name="sale" class="btn btn-danger">Add Product</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock table %}
+
+{% block cardfeatur %}
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  
+  <div class="modal fade " id="whole" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Analyze your all product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <div class="container">
+               <div class="row">
+                   {% if pro %}
+                    {% for pr in pro %}
+                    <div class="col-sm-3">
+                    <div class="card shadow shadow-lg" style="width: 18rem;">
+                        {% if pr.img %}
+                        <img src="{{pr.img.url}}" class="card-img-top" alt="product image">
+                        {% else %}
+                        <img src="{% static 'client/img/bell.png' %}" class="card-img-top" alt="product image">
+                        {% endif %}
+                        <div class="card-body" style="background-color:whitesmoke;">
+                            <h5 class="text-danger text-center">{{pr.name}}</h5>
+                            <h6>Price: {{pr.price}} <span class="float-end">Qty: {{pr.total}}</span> </h6>
+                            <small class="text-justify">{{pr.text}} </small>
+                        </div>
+                            <div class="card-footer text-muted">
+                               {% comment %} <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-light">Delete   </button>
+                                </form>  {% endcomment %}
+                                {{pr.fdate}}
+                            </div>
+                      </div>
+                      
+                    </div>
+                    {% endfor %}
+                   {% else %}
+                      <h5 class="text-danger h3 text-center">Product Not Found</h5>
+                   {% endif %}
+               </div>
+           </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="card-header">
+<p class="h6">Check product :</p>
+
+    <center>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#whole">
+            Analyze Product
+          </button>  
+    </center>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+<div class="scroll">
+    <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                {% comment %} <th scope="col">#</th> {% endcomment %}
+                <th class="text-dark" scope="col">Product</th>
+                <th class="text-dark" scope="col">Cost</th>
+                <th class="text-dark" scope="col">Qty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pro %}
+                {% for pp in pro %}
+            <tr class="h6">
+                {% comment %} <th scope="row">1</th> {% endcomment %}
+                <td>{{pp.name}}</td>
+                <td>{{pp.price}}</td>
+                <td class="text-danger">{{pp.total}}</td>
+              </tr>
+              {% endfor %}
+          {% else %}
+              <h2 class="text-center-center">Product Not Available</h2>
+          {% endif %}
+            </tbody>
+          </table>
+        </div>
+</div>
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

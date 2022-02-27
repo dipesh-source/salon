@@ -1,0 +1,59 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">
+    <h3 class="text-center"> <span class="text-success">{{name}}</span> Last Month Timing....</h3>
+<div class="card-header">
+    <div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Date</th>
+            <th scope="col">In Time</th>
+            <th scope="col">Our Time</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if data %}
+                {% for dt in data %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{dt.in_date}}</td>
+                  <td>{{dt.in_time}}</td>
+                  <td>{{dt.out_time}}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center text-danger">Data Not Found..!</h3>
+            {% endif %}
+      
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+ 
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

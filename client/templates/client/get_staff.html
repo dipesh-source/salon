@@ -1,0 +1,66 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h4>Update Your Staff <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <p class="text-danger font-bold">Note: after update your staff data it will update everywhere in your System..!</p>
+        <hr>
+    </div>
+    <div class="card-body card-rounded">
+        <h5>Select Staff Member For Update <hr> </h5>
+        <div class="table-responsive">
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+              <tr class="text-danger">
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Service</th>
+                <th scope="col">Update</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for dt in data %}
+                    <tr class="text-dark h6">
+                      <th scope="row">{{forloop.counter}}</th>
+                      <td>{{dt.name}}</td>
+                      <td>{{dt.phone}}</td>
+                      <td>{{dt.email}}</td>
+                      <td>{{dt.service}}</td>
+                      <td>
+                          <a href="{% url 'update_staff' dt.id %}"><i class="fas fa-user-edit" style="color:green; font-size:20px;"></i></a>
+                      </td>
+                    </tr>               
+                    {% endfor %}
+                {% else %}
+                    <h5 class="text-danger">Staff Member Not Available...</h5>
+                {% endif %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <h2>dipesh Parmar</h2>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h3>dipesh Parmar</h3>
+{% endblock visitors %}

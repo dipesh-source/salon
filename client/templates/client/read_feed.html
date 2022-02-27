@@ -1,0 +1,53 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h3>Read Feedback <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h3>
+        <hr>
+    </div>
+    <div class="card-body card-rounded">
+        <div>
+            {% if data %}
+                <h4 class="text-dark">Name: {{data.name}}</h4> <br>
+                <h4 class="text-info">Phone: {{data.phone}}</h4> <br>
+                <h5 class="text-success"><span class="text-danger">Feedback:</span><br><br>{{data.feed}}</h5>
+            {% else %}
+                <h5 class="text-danger">Something Went Wrong...!</h5>
+            {% endif %}
+        </div>        
+        <div class="modal-footer">
+            <a href="{% url 'client' %}" class="btn btn-danger">Homepage</a>
+            <a href="{% url 'feedback' %}" class="btn btn-success">Go to back</a>
+        </div>
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <div class="p-3">
+        <h4>Elon Musk...</h4> <hr>
+        <div class="h4">
+            “I think it’s very important to have a feedback loop, where you’re constantly thinking about what you’ve done and how you could be doing it better.”
+        </div>
+    </div>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <div class="p-4">
+        <h5 class="text-danger">Publish Date/Time:</h5> <hr> <br>
+        <h4 class="text-success">{{data.fdate}}</h4>
+    </div>
+{% endblock visitors %}

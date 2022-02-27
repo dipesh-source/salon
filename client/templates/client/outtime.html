@@ -1,0 +1,83 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+    <div class="text-center mt-2 h5 mb-2">{{request.user}} Staff In Time</div>
+    <hr>
+    <div class="card-header">
+        <form action="" class="p-3" method="POST" novalidate>
+            {% csrf_token %}
+            {% if tform %}
+                {% for tf in tform %}
+                    {{tf.non_fields_error}}
+                {% endfor %}
+            {% endif %}
+            {% if messages %}
+                {% for mes in messages %}
+                    <h5 class="text-center">{{mes}}</h5>
+                {% endfor %}
+            {% endif %}
+            {% comment %} {{tform.staff.label_tag}} {% endcomment %}
+          
+            {% comment %} <div class="">
+                <fieldset  >
+                {{upform.in_time.label_tag}}
+                {{upform.in_time}}
+                </fieldset>
+            </div> 
+            <div class="">
+                {{upform.out_time.label_tag}} <span class="text-danger">*can not select</span>
+                {{upform.out_time}}  
+                <p class="text-danger">{{tform.out_time.errors|striptags}}</p>
+            </div> {% endcomment %}
+            
+            <div > 
+                
+                
+                {{upform.staff.label_tg}}
+                {% comment %} <fieldset disabled> {% endcomment %}
+                                   {{upform.staff}}
+                {% comment %} </fieldset> {% endcomment %}
+             
+           </div>
+
+            <button type="submit" class="btn btn-warning">submit Out-Time</button>
+        </form>
+    </div>
+ 
+
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% now "h:i:s,A" %}
+            </span>
+        </div>
+    </div>
+    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+        Conversation</button>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

@@ -1,0 +1,117 @@
+{% extends "client/layout.html" %}
+
+{% block table %}
+
+<div class="card">
+    <div class="text-center mt-2 h5 mb-2 mt-4">{{request.user}} Staff Daily Timing</div>
+    <hr>
+    <div class="card-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Staff In Time</h4>
+                    <form action="" class="p-3" method="POST" >
+                        {% csrf_token %}
+                        {% if tform %}
+                            {% for tf in tform %}
+                                {{tf.non_fields_error}}
+                            {% endfor %}
+                        {% endif %}
+                        {% if messages %}
+                            {% for mes in messages %}
+                                <h5 class="text-center">{{mes}}</h5>
+                            {% endfor %}
+                        {% endif %}
+                        {{tform.staff.label_tag}}
+                        <select name="mystf" id="client" class="form-control" required>
+                        <option value="">None</option>
+                            {% if stff %}
+                                {% for stf in stff %}
+                                    <option value={{stf}}>{{stf.name}}</option>
+                                    {% endfor %}
+                            {% comment %} {% else %}
+                                <option value="Not Available">Not Available</option> {% endcomment %}
+                            {% endif %}
+                        </select><br>
+                        
+                        <button type="submit" class="btn btn-warning">submit In-Time</button>
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    <h4>Staff Out Time</h4>
+                    <p class="text-dark"> Good By Staff, will meet soon tomorrow <span>
+                    <button data-bs-toggle="modal" class="btn btn-sm btn-success" data-bs-target="#otime">check</button>
+                    </span> </p>
+                        {% if mytime %}
+                            {% for mt in mytime %}
+                                <a href="{% url 'out' mt.id  %}" class="mt-2 btn btn-outline-info"><span class="text-black">{{mt.staff}}</span></a>  
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-danger h4">Not Available Today's attendance</div> 
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+        <!--################### staff out-time #######################-->         
+            <!-- Modal -->
+            <div class="modal fade" id="otime" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="otime">Staff Out Time/ <span class="text-danger">({% now "h:i:s,A" %})</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    {% comment %} <p class="text-dark"> Good By Staff, will meet soon tomorrow </p>
+                        {% if mytime %}
+                            {% for mt in mytime %}
+                                <a href="{% url 'out' mt.id  %}" class="btn btn-outline-info"><span class="text-black">{{mt.staff}}</span></a>  
+                            {% endfor %}
+                        {% else %}
+                            <div>Not Available</div> 
+                        {% endif %} {% endcomment %}
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!--#################### staff out-time ######################-->
+    </div>
+</div>
+
+{% endblock table %}
+
+
+{% block cardfeatur %}
+<div class="">
+    <h3 class="text-center text-success mt-3">Total Result</h3>
+    <h1 class="text-center">{{ent}}</h1>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% now "h:i:s,A" %}
+            </span>
+        </div>
+    </div>
+    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+        Conversation</button>
+</div>
+{% endblock visitors  %}
+
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

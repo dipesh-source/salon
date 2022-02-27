@@ -1,0 +1,96 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h4>Book Local Appointments <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <hr>
+    </div>
+    <div class="card-body card-rounded">
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            {% if form %}
+                {% for fm in form %}
+                    {{fm.non_field_error}}
+                {% endfor %}
+            {% endif %}
+            {% if messages %}
+                {% for mes in messages %}
+                    <h5 class="alert alert-info text-center">{{mes}}</h5>
+                {% endfor %}
+            {% endif %}
+            <div>
+                {{form.name.label_tag}}
+                {{form.name}}
+                <p class="text-danger">{{form.name.errors|striptags}}</p>
+            </div>     
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        {{form.phone.label_tag}}
+                        {{form.phone}}
+                        <p class="text-danger">{{form.phone.errors|striptags}}</p>
+                    </div>            
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        {{form.email.label_tag}}
+                        {{form.email}}
+                        {% comment %} <p class="text-danger">{{form.name.errors|striptags}}</p> {% endcomment %}
+                    </div>   <br>    
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        {{form.service.label_tag}}
+                        {{form.service}}
+                        {% comment %} <p class="text-danger">{{form.name.errors|striptags}}</p> {% endcomment %}
+                    </div>      <br>     
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        {{form.staff.label_tag}}
+                        {{form.staff}}
+                        {% comment %} <p class="text-danger">{{form.name.errors|striptags}}</p> {% endcomment %}
+                    </div>     <br>       
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        {{form.datex.label_tag}}
+                        {{form.datex}}
+                        <p class="text-danger">{{form.datex.errors|striptags}}</p>
+                    </div> <br>
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        {{form.timex.label_tag}}
+                        {{form.timex}}
+                        <p class="text-danger">{{form.timex.errors|striptags}}</p>
+                    </div>
+                </div>
+            </div>       
+            <button type="submit" class="btn btn-success">Bool Appointment</button>
+        </form>
+        
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <h2>dipesh Parmar</h2>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h3>dipesh Parmar</h3>
+{% endblock visitors %}

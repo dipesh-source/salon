@@ -1,0 +1,75 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+    <div class="text-center mt-4 h5 mb-2">Today's Staff Work</div>
+    {% comment %} <hr> {% endcomment %}
+    <div class="card-header">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Service</th>
+                {% comment %} <th scope="col"></th> {% endcomment %}
+              </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for dt in data %}
+                        <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{dt.customer}}</td>
+                        <td>{{dt.phone}}</td>
+                        <td>{{dt.datex}}</td>
+                        <td>{{dt.timex}}</td>
+                        <td>{{dt.service}}</td>
+                        <td><a href=" ">view</a></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <h2 class="text-danger text-center">Data Not Existing...!</h2>
+                {% endif %}
+            </tbody>
+          </table>
+    </div>
+ 
+
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% now "h:i:s,A" %}
+            </span>
+        </div>
+    </div>
+    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+        Conversation</button>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

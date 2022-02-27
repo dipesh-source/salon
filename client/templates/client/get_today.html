@@ -1,0 +1,81 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+    <div class="text-center mt-4 h5 mb-2"><span class="text-danger h3">{{sname}}</span>  Today's Work</div>
+    {% comment %} <hr> {% endcomment %}
+    <div class="card-header">
+        <div class="text-danger h6">This data is just for your daily work analysis, it will update for daily basis</div>
+        <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Time</th>
+                <th scope="col">Service</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for dt in data %}
+                        <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{dt.customer}}</td>
+                        <td>{{dt.phone}}</td>
+                         
+                        <td>{{dt.timex}}</td>
+                        <td>{{dt.service}}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                        <h3 class="text-danger text-center">Data Not Available</h3>
+                {% endif %}
+              
+            </tbody>
+          </table>
+        </div>
+    </div>
+ 
+
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="p-3 h5">
+    Attended appointment
+</div>
+<h1 class="text-center">{{total}}</h1>
+
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content ">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% now "h:i:s,A" %}
+            </span>
+        </div>
+    </div>
+    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+        Conversation</button>
+</div>
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

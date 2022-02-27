@@ -1,0 +1,48 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h4>Update Your Staff <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <p class="text-danger font-bold">Note: after update your staff data it will update everywhere in your System..!</p>
+        <hr>
+    </div>
+    <div class="card-body card-rounded">
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            {% if form %}
+                {% for fm in form %}
+                    {{fm.non_field_error}}
+                {% endfor %}
+            {% endif %}
+            {% if messages %}
+                {% for mes in messages %}
+                    <h5 class="alert alert-info text-center">{{mes}}</h5>
+                {% endfor %}
+            {% endif %} 
+            {{form.as_p}}
+            <button type="submit" class="btn btn-info">update staff</button> 
+        </form>
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <h2>dipesh Parmar</h2>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h3>dipesh Parmar</h3>
+{% endblock visitors %}

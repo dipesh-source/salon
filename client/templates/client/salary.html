@@ -1,0 +1,70 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">  
+    <h3 class="text-success">Pay Salary <i class="fas fa-rupee-sign" style="color:red;"></i></h3>
+    <p class="text-danger h6">Note: while paying salary current timezone will store</p>
+    <hr>
+    <form action="" method="POST"  >
+        {% csrf_token %}
+        {% if form %}
+            {% for fm in form %}
+                <p class="text-danger">{{form.non_fields_error}}</p>
+            {% endfor %}
+        {% endif %}
+        {% comment %} {% if messages %}
+            {% for me in messages %}
+
+            {% endfor %}
+        {% endif %} {% endcomment %}
+        <select name="mystf" id="client" class="form-control" required>
+            <option value="">None</option>
+            {% if stff %}
+                {% for stf in stff %}
+                    <option value={{stf}}>{{stf.name}}</option>
+                    {% endfor %}
+            {% comment %} {% else %}
+                <option value="Not Available">Not Available</option> {% endcomment %}
+            {% endif %}
+        </select><br>                        
+        {{form.as_p}}
+        <button type="submit" class="btn btn-danger">Pay Salary</button>
+    </form> 
+</div>
+
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% now "h:i:s,A" %}
+            </span>
+        </div>
+    </div>
+    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+        Conversation</button>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

@@ -1,0 +1,123 @@
+{% extends "adminapp/admin_home.html" %} {% load static %} 
+{% block mycss %}
+<style>
+   
+    div.scroll {
+        margin:4px, 4px;
+        padding:4px;
+        background-color: white;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align:justify;
+    }
+</style>
+{% endblock mycss %}
+{% block start %} {% endblock start %} {% block main %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          <form action="" method="POST" novalidate>
+            {% csrf_token %} {% if form %} {% for fm in form %}
+            {{fm.non_field_error}} {% endfor %} {% endif %} {% if messages %} {% for ms in messages %}
+            <h5 class="alert alert-info pb-1 pt-1">{{ms}}</h5>
+            {% endfor %} {% endif %}
+            <div class="container">
+              <div class="row">
+                <h4 class="text-primary">Give Account Access</h4>
+                <hr />
+                <div class="col-sm-6">
+                  <div class="">
+                    {{form.user.label_tag}} {{form.user}}
+                    <p class="text-danger h6">{{form.user.errors|striptags}}</p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="">
+                    {{form.month.label_tag}} {{form.month}}
+                    <p class="text-danger h6">
+                      {{form.month.errors|striptags}}
+                    </p>
+                  </div>
+                  <br />
+                </div>
+                <div class="col-sm-6">
+                  <div class="">
+                    {{form.set_date.label_tag}} {{form.set_date}}
+                    <p class="text-danger h6">
+                      {{form.set_date.errors|striptags}}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="">
+                    {{form.set_time.label_tag}} {{form.set_time}}
+                    <p class="text-danger h6">
+                      {{form.set_time.errors|striptags}}
+                    </p>
+                  </div>
+                  <br />
+                </div>
+                <div class="col-sm-6">
+                  <div class="">
+                    {{form.ex_date.label_tag}} {{form.ex_date}}
+                    <p class="text-danger h6">
+                      {{form.ex_date.errors|striptags}}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="">
+                    {{form.ex_time.label_tag}} {{form.ex_time}}
+                    <p class="text-danger h6">
+                      {{form.ex_time.errors|striptags}}
+                    </p>
+                  </div>
+                  <br />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Permission</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="scroll"> 
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">Expiry Date</th>
+                        <th scope="col">Published</th>
+                        <th scope="col"><i class="far fa-edit"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% if data %}
+                            {% for dt in data %}
+                            
+                            <tr>
+                              <th scope="row">{{forloop.counter}}</th>
+                              <td><a href=" " class="h6" style="text-decoration: none;">{{dt.user}}</a></td> 
+                              <td class="table-danger h6">{{dt.set_date}}</td>
+                              <td class="table-success text-danger h6">{{dt.ex_date}}</td>
+                              <td>{{dt.fdate}}</td>
+                              <td><a href="{% url 'up_access' dt.id %}"><i class="far fa-edit" style="color:blue;"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        {% endif %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock main %}

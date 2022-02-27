@@ -1,0 +1,192 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+<div class="col-6 col-lg-3 col-md-6">
+    <small><marquee style="color:black;">Get Total Appointment</marquee></small>
+    <div class="card">
+        <div class="card-body px-3 py-4-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stats-icon purple">
+                        <i class="far fa-calendar-check" style="color:black;"></i>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h6 class="font-semibold" style="color:green;">Total</h6> 
+                    {% if all %}
+                        <h6 class="font-extrabold mb-0">{{all}}</h6>
+                    {% else %}
+                        <h6 class="font-extrabold mb-0">0</h6>
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-6 col-lg-3 col-md-6">
+    <small><marquee style="color:black;">Get Today Appointment</marquee></small>
+    <div class="card">
+        <div class="card-body px-3 py-4-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stats-icon green">
+                        <i class="fas fa-calendar-check"  style="color:black;"></i>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h6 class="font-semibold" style="color:green;">Today</h6> 
+                    {% if todayco %}
+                        <h6 class="font-extrabold mb-0">{{todayco}}</h6>
+                    {% else %}
+                        <h6 class="font-extrabold mb-0">0</h6>
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-6 col-lg-3 col-md-6">
+    <small><marquee style="color:black;">Upcomming Appointment</marquee></small>
+    <div class="card">
+        <div class="card-body px-3 py-4-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stats-icon red">
+                        <i class="fas fa-headset" style="color:black;"></i>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h6 class="font-semibold" style="color:green;">Upcomming</h6> 
+                    {% if upcome %}
+                        <h6 class="font-extrabold mb-0">{{upcome}}</h6>
+                    {% else %}
+                        <h6 class="font-extrabold mb-0">0</h6>
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-6 col-lg-3 col-md-6">
+    <small><marquee style="color:black;">Missing Appointment</marquee></small>
+    <div class="card">
+        <div class="card-body px-3 py-4-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stats-icon blue">
+                        <i class="far fa-meh-rolling-eyes" style="color:black;"></i>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h6 class="font-semibold" style="color:green;">Missing</h6> 
+                    {% if miss %}
+                        <h6 class="font-extrabold mb-0">{{miss}}</h6>
+                    {% else %}
+                        <h6 class="font-extrabold mb-0">0</h6>   
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h4>Book Local Appointments <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <hr>
+        <form action="" method="GET">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="" >
+                            {{form.form.phone.label_tag}}
+                            {{form.form.phone}}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class=" ">
+                            {{form.form.name.label_tag}}
+                            {{form.form.name}}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class=" ">
+                            {{form.form.datex.label_tag}} <span><small style="color:red;">(yyyy-mm-dd)</small></span>
+                            {{form.form.datex}}
+                        </div>
+                    </div>
+                </div>
+                <button class="mt-4 btn btn-sm btn-danger" style="width:100px;" type="submit"><i class="fas fa-search"></i></button>
+                <span class="" style="color:red;">Note: Serach Your Data By Exact Value Like, Small Or Capital Character... </span>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+        <table class="table table-hover table-striped table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl table-responsive-xxl">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Service</th>
+                <th scope="col">Staff</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col"><i class="fas fa-trash" style="color:red;"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for dt in data %}
+                        <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td class="table-success">{{dt.name}}</td>
+                        <td>{{dt.phone}}</td>
+                        <td>{{dt.email}}</td>
+                        <td>{{dt.service}}</td>
+                        <td>{{dt.staff}}</td>
+                        <td class="table-danger">{{dt.datex}}</td>
+                        <td class="table-warning">{{dt.timex}}</td>
+                        <td class="table-warning">
+                            <form action="{% url 'lodel' dt.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-light">
+                                    <i class="fas fa-trash" style="color:red;"></i>
+                                </button>
+                            </form>
+                        </td>
+
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <h5 clsas="text-danger">Appointment Not Available</h5>
+                {% endif %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <h2>dipesh Parmar</h2>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h3>dipesh Parmar</h3>
+{% endblock visitors %}

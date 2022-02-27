@@ -1,0 +1,69 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h3>Customer Feedback<span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h3>
+    </div>
+    <hr>
+    <div class="card-body card-rounded">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Feedback</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Publish</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                {% for dt in data %}
+                    <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{dt.name}}</td>
+                    <td>{{dt.phone}}</td>
+                    <td>{{dt.feed|truncatechars:9}} <span><a href="{% url 'read' dt.id %}"><i class="fas fa-arrow-circle-right" style="color:green; font-size:18px;"></i></a></span> </td>
+                    <td>
+                        <form action="{% url 'delfeed' dt.id %}" method="POST">
+                            {% csrf_token %}
+                        <button type="submit" class="btn btn-light">
+                            <i class="fas fa-trash-alt" style="color:red; font-size:18px;"></i>
+                        </button>
+                        </form>
+                    </td>
+                    <td>{{dt.fdate}}</td>
+
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <h3 class="text-center text-danger">Feedback Not Available...</h3>
+                {% endif %}
+            </tbody>
+          </table>
+    </div>
+              
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <h2>dipesh Parmar</h2>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h3>dipesh Parmar</h3>
+{% endblock visitors %}

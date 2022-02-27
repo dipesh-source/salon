@@ -1,0 +1,63 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">
+    <h1 class="text-danger text-center mt-3 mb-3">{{name}} Salary Records...</h1>
+    <form action="" class="form-inline" method="GET">
+      {{form.form.as_p}}
+      <button type="submit" class="btn btn-sm btn-info">get salary</button>
+    </form>
+    <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Pay</th>
+            <th scope="col">Extra</th>
+            <th scope="col">Month</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if salary %}
+                {% for st in salary %}
+                <tr class="h6 text-dark">
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td class="table-info">{{st.pay}}</td>
+                  <td>{{st.extra}}</td>
+                  <td class="table-danger">{{st.month}}</td>
+                  <td>{{st.fdate}}</td>
+                  <td>{{st.ftime}}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center text-danger">Data Does Not Exist</h3>
+            {% endif %}
+        </tbody>
+      </table>
+    </div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

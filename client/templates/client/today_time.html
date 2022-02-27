@@ -1,0 +1,61 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block table %}
+<div class="h2 text-center mt-3">Today Report</div>
+<div class="card-header">
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Staff</th>
+            <th scope="col">In Time</th>
+            <th scope="col">Out Time</th>
+            <th scope="col">Hours</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if data %}
+                {% for dt in data %}
+                    <tr class="text-dark h6">
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{dt.staff}}</td>
+                    <td>{{dt.in_time}}</td>
+                    {% if dt.out_time == dt.in_time %}
+                    <td class="text-danger">alive</td>
+                    {% else %}
+                    <td>{{dt.out_time}}</td>
+                    {% endif %}
+                    <td>@mdo</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <hr class="bg-danger">
+                <h3 class="text-danger text-center">Data not available</h3>
+            {% endif %}
+        
+        </tbody>
+      </table>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}

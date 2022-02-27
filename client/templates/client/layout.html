@@ -1,0 +1,1116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mazer Admin Dashboard</title>
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous"> {% endcomment %}
+     <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    {% comment %} <link rel="preconnect" href="https://fonts.gstatic.com"> {% endcomment %}
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> {% endcomment %}
+
+    <link rel="stylesheet" href="{% static 'client/css/bootstrap.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'client/css/bold.css' %}">
+
+    <link rel="stylesheet" href="{% static 'client/css/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'client/css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'client/css/app.css' %}">
+    {% comment %} <link rel="shortcut icon" href="{% static 'assets/images/favicon.svg' %}" type="image/x-icon"> {% endcomment %}
+    {% block mycss %}{% endblock mycss %}
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+        <div class="d-flex justify-content-between">
+            <div class="logo">
+                <a href="index.html"><img src="{% static 'client/img/bell.png' %}"  class="img-fluid"  alt="Logo" srcset=""></a>
+            </div>
+            <div class="toggler">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            <li class="sidebar-title">{{request.user}} Menu</li>
+            
+            <li
+                class="sidebar-item active ">
+                <a href="{% url 'client' %}" class='sidebar-link'>
+                    <i class="fas fa-laptop"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item  has-sub">
+                <a href="#" class='sidebar-link'>
+                    <i class="far fa-hand-paper"></i>
+                    <span>All Work</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="{% url 'today_work' %}">Today</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'lastmon' %}">Last Month</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'smooth' %}">Smooth Filter</a>
+                    </li>
+                  
+                </ul>
+            </li>
+            
+            <li
+                class="sidebar-item  has-sub">
+                <a href="#" class='sidebar-link'>
+                    <i class="fas fa-user-friends"></i>
+                    <span>Manage Staff</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="{% url 'get_staff' %}">Update Staff</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'staff_del' %}">Remove Staff</a>
+                    </li>
+                     
+                </ul>
+            </li>
+            
+            <li
+                class="sidebar-item  has-sub">
+                <a href="#" class='sidebar-link'>
+                    <i class="fas fa-concierge-bell" style=""></i>
+                    <span>Service</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="{% url 'service' %}">Add Service</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'product' %}">My Product</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="layout-vertical-navbar.html">My Gallery</a>
+                    </li>
+                    
+                </ul>
+            </li>
+
+            <li class="sidebar-title">Staff timing</li>
+                       
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'timing' %}" class='sidebar-link'>
+                    <i class="fas fa-walking" style="color:black;"></i>
+                    <span>In Time</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item   ">
+                <!-- Button trigger modal -->
+                <a href="{% url 'totime' %}" class='sidebar-link'>
+                    <i class="fas fa-calendar-week" style="color:black;"></i>
+                    <span>Today Time's</span>
+                </a>
+            </li>
+
+            <li
+            class="sidebar-item   ">
+            <a href="{% url 'report' %}" class='sidebar-link'>
+                <i class="fas fa-file-alt" style="color:orange;"></i>
+                <span>Report</span>
+            </a>
+             
+            </li>
+            
+            <li class="sidebar-title">Local Appointment</li>
+            
+            <li
+                class="sidebar-item  has-sub">
+                <a href="" class='sidebar-link'>
+                    <i class="far fa-calendar-check" style="color:red;"></i>
+                    <span>Appointment</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="{% url 'local' %}">Book Appointment</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'getlocal' %}">View Local</a>
+                    </li>
+                   
+                     
+                </ul>
+            </li>
+            
+            {% comment %} <li
+                class="sidebar-item  ">
+                <a href="form-layout.html" class='sidebar-link'>
+                    <i class="fas fa-user-edit"></i>
+                    <span>Update Local</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item   ">
+                <a href="#" class='sidebar-link'>
+                    <i class="far fa-trash-alt"></i>
+                    <span>Delete Delete</span>
+                </a>
+                 
+            </li> {% endcomment %}
+            
+            
+            {% comment %} <li class="sidebar-title">Last Month</li>
+            
+            <li
+                class="sidebar-item  has-sub">
+                <a href="#" class='sidebar-link'>
+                    <i class="bi bi-bar-chart-fill"></i>
+                    <span>Charts</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="ui-chart-chartjs.html">ChartJS</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="ui-file-uploader.html" class='sidebar-link'>
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                    <span>File Uploader</span>
+                </a>
+            </li>
+             {% endcomment %}
+            
+            
+            <li class="sidebar-title">Staff Salary</li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'salary' %}" class='sidebar-link'>
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Salary</span>
+                </a>
+            </li>
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'payad' %}" class='sidebar-link'>
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Advanced</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'salary_data' %}" class='sidebar-link'>
+                    <i class="fas fa-eye"></i>
+                    <span>View Data</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="application-gallery.html" class='sidebar-link'>
+                    <i class="fas fa-user-slash"></i>
+                    <span>Remove Data</span>
+                </a>
+            </li>
+            
+                      
+    
+            <li class="sidebar-title">Email App</li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'sendm' %}" class='sidebar-link'>
+                    <i class="fas fa-envelope"></i>
+                    <span>Send Email</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'feedback' %}" class='sidebar-link'>
+                    <i class="fas fa-eye"></i>
+                    <span>Feedback</span>
+                </a>
+            </li>
+            
+            <li
+                class="sidebar-item  ">
+                <a href="https://github.com/zuramai/mazer#donate" class='sidebar-link'>
+                    <i class="fas fa-cogs"></i>
+                    <span>Action</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+</div>
+        </div>
+        <div id="main">
+            
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+            
+<div class="page-heading">
+    {% if messages %}
+        {% for mess in messages %}
+            <div class="h5 text-center alert alert-success" style="color:black;">{{mess}}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="float-end">
+        <a href="{% url 'logoutv' %}"  ><i class="fas fa-sign-out-alt" style="font-size:24px; color:red;"></i></a>
+    </div>
+    <h3> <span style="color:red;">{{request.user}}</span> Statistics</h3>
+    <hr>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12 col-lg-9">
+            <div class="row">
+                {% block little %}
+                <div class="col-6 col-lg-3 col-md-6">
+                    <small><marquee style="color:black;">Get Total Appointment</marquee></small>
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon purple">
+                                        <i class="far fa-calendar-check" style="color:black;"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="font-semibold" style="color:green;">Total</h6> 
+                                    {% if total %}
+                                        <h6 class="font-extrabold mb-0">{{total}}</h6>
+                                    {% else %}
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                        
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 col-md-6">
+                    <small><marquee behavior="scroll" style="color:orange;" direction="left" scrollamount="2">Get Today Appointment</marquee></small>
+
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="" data-bs-toggle="modal"  data-bs-target="#today">
+                                    <div class="stats-icon blue">
+                                        <i class="fas fa-calendar-day" style="color:black;"></i>
+                                    </div>
+                                </a>
+                                <!-- Button trigger modal -->
+                                 
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="today" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog  modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">Today's Appointment/ </h5> <br>
+                                            <h5 class="float-end modal-title" style="color:red;">{% now "D, d M Y" %}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <!--############ serach today appointment ##############-->
+                                
+                                        <table class="table table-responsive table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Id</th>
+                                                        <th scope="col">Unique</th>
+                                                        <th scope="col">customer</th>
+                                                        <th scope="col">Phone</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Time</th>
+                                                        <th scope="col">Service</th>
+                                                        <th scope="col">Staff</th>
+                                                        <th scope="col">Publish</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if toapp %}
+                                                    {% for ap in toapp %}
+                                                    <tr>
+                                                      <th scope="row">{{forloop.counter}}</th>
+                                                      {% if ap.uniq %}
+                                                        <td class="table-primary">{{ap.uniq}}</td>
+                                                      {% else %}
+                                                        <td class="table-danger">No</td>
+                                                      {% endif %}
+                                                      <td>{{ap.customer}}</td>
+                                                      <td>{{ap.phone}}</td>
+                                                      <td class="table-success">{{ap.datex}}</td>
+                                                      <td class="table-info">{{ap.timex}}</td>
+                                                      {% if ap.service %}
+                                                        <td>{{ap.service}}</td>
+                                                      {% else %}
+                                                        <td class="table-danger">No</td>
+                                                      {% endif %}
+                                                      {% if ap.staff %}
+                                                        <td>{{ap.staff}}</td>
+                                                      {% else %}
+                                                        <td class="table-danger">No</td>
+                                                      {% endif %}
+                                                     
+                                                      <td>{{ap.fdate}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <h5 class="mt text-center" style="color:red;"><marquee>No Appointment Yet All</marquee></h5>
+                                                {% endif %}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Understood</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="font-semibold" style="color:green;">Today</h6>
+                                    {% if today %}
+                                        <h6 class="font-extrabold mb-0">{{today}}</h6>
+                                    {% else %}
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="col-6 col-lg-3 col-md-6">
+                    <small><marquee  behavior="scroll" style="color:blue;" direction="left" scrollamount="3">View Upcomming Appointment</marquee></small>
+
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href=""  data-bs-toggle="modal" data-bs-target="#upcomeing">
+                                        <div class="stats-icon green">
+                                            <i class="fas fa-headset" style="color:black;"></i>
+                                        </div>
+                                    </a>
+                                    <!--#############  upcomeing appoint model ##################-->
+                                        <!-- Button trigger modal -->
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="upcomeing" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg ">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Upcomming Appointment</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <!--############################-->
+             
+                                        <table class="table table-responsive table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Unique</th>
+                                                    <th scope="col">customer</th>
+                                                    <th scope="col">Phone</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Time</th>
+                                                    <th scope="col">Service</th>
+                                                    <th scope="col">Staff</th>
+                                                    <th scope="col">Action</th>
+                                                    <th scope="col">Publish</th>
+                                                  </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if upapp %}
+                                                {% for ap in upapp %}
+                                                <tr>
+                                                  <th scope="row">{{forloop.counter}}</th>
+                                                  {% if ap.uniq %}
+                                                    <td class="table-primary text-black">{{ap.uniq}}</td>
+                                                  {% else %}
+                                                    <td class="table-danger">No</td>
+                                                  {% endif %}
+                                                  <td class="text-red">{{ap.customer}}</td>
+                                                  <td class="text-black">{{ap.phone}}</td>
+                                                  <td class="text-black table-success">{{ap.datex}}</td>
+                                                  <td class="table-info  text-black">{{ap.timex}}</td>
+                                                  {% if ap.service %}
+                                                    <td>{{ap.service}}</td>
+                                                  {% else %}
+                                                    <td class="table-danger">No</td>
+                                                  {% endif %}
+                                                  {% if ap.staff %}
+                                                    <td class="text-black">{{ap.staff}}</td>
+                                                  {% else %}
+                                                    <td class="table-danger">No</td>
+                                                  {% endif %}
+                                                 
+                                                  <td>{{ap.fdate}}</td>
+                                                  <td>
+                                                    <form action="{% url 'upcome_delete' ap.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-light">
+                                                            <i class="far fa-trash-alt" style="color:red;"></i></td>
+                                                        </button>
+                                                    </form>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <h4 class="mt  text-center" style="color:red;"><marquee>No Appointment Yet All</marquee></h4>
+                                            {% endif %}
+                                            </tbody>
+                                          </table>
+                                        <!--############################-->
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                    <!--################################-->
+                                    
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="font-semibold" style="color:green;">Upcomming</h6>
+                                    {% if upcome %}
+                                        <h6 class="font-extrabold mb-0">{{upcome}}</h6>
+                                    {% else %}
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 col-md-6">
+                    <small><marquee style="color:red;" behavior="scroll" direction="left" scrollamount="2">Get Next Five Hour Appointment</marquee></small>
+
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#nextapp">
+                                        <div class="stats-icon red">
+                                            <i class="fas fa-hourglass-half" style="color:black;"></i>
+                                        </div>
+                                    </a>
+                                    <!--############# caved post ###############-->                                                            <!-- Button trigger modal -->
+                                
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="nextapp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" style="color:red;" id="staticBackdropLabel">Your Next Appointment's With In Five(5) Hour's</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <!--############################-->
+             
+                                        <table class="table table-responsive table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Unique</th>
+                                                    <th scope="col">customer</th>
+                                                    <th scope="col">Phone</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Time</th>
+                                                    <th scope="col">Service</th>
+                                                    <th scope="col">Staff</th>
+                                                    <th scope="col">Publish</th>
+                                                  </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if nextapp %}
+                                                {% for nxp in nextapp %}
+                                                <tr>
+                                                  <th scope="row">{{forloop.counter}}</th>
+                                                  {% if nxp.uniq %}
+                                                    <td class="table-primary text-black">{{nxp.uniq}}</td>
+                                                  {% else %}
+                                                    <td class="table-danger">No</td>
+                                                  {% endif %}
+                                                  <td class="text-red">{{nxp.customer}}</td>
+                                                  <td class="text-black">{{nxp.phone}}</td>
+                                                  <td class="text-black table-success">{{nxp.datex}}</td>
+                                                  <td class="table-info  text-black">{{nxp.timex}}</td>
+                                                  {% if ap.service %}
+                                                    <td>{{nxp.service}}</td>
+                                                  {% else %}
+                                                    <td class="table-danger">No</td>
+                                                  {% endif %}
+                                                  {% if nxp.staff %}
+                                                    <td class="text-black">{{nxp.staff}}</td>
+                                                  {% else %}
+                                                    <td class="table-danger">No</td>
+                                                  {% endif %}
+                                                 
+                                                  <td>{{nxp.fdate}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <h4 class="mt text-center" style="color:red;"><marquee>No Appointment Yet All</marquee></h4>
+                                            {% endif %}
+                                            </tbody>
+                                          </table>
+                                        <!--############################-->
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                    <!--########################################-->
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="font-semibold" style="color:green;">Next Appo't</h6>
+                                    {% if nexnt %}
+                                        <h6 class="font-extrabold mb-0">{{nexnt}}</h6>
+                                    {% else %}
+                                    <h6 class="font-extrabold mb-0">0</h6>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endblock little %}
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        {% block table %}
+                        <div class="card-header">
+                            <h4 class="float-end">{% now "D, d M Y" %}</h4>
+                            <h4>All Appointments <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+                            <hr>
+                            <form action="" method="GET">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="" >
+                                                {{form.form.phone.label_tag}}
+                                                {{form.form.phone}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class=" ">
+                                                {{form.form.customer.label_tag}}
+                                                {{form.form.customer}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class=" ">
+                                                {{form.form.datex.label_tag}} <span><small style="color:red;">(yyyy-mm-dd)</small></span>
+                                                {{form.form.datex}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 btn-sm  btn-danger" style="width:100px;" type="submit"><i class="fas fa-search"></i></button>
+                                    <span class="mt-5" style="color:red;">Note: Serach Your Data By Exact Value Like, Small Or Capital Character... </span> <br>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <div class=" table-responsive"> <!--gfg-->
+                            {% comment %} <div id="chart-profile-visit"></div> {% endcomment %}
+                            <h6 class="text-danger">After finish service you must have to delete appointment data, otherwise it will overloaded <span>(data can be harmful)</span></h6>
+                            <table class="table table-bordered table-hover table-striped table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl table-responsive-xxl">
+                                <thead class="position-sticky">
+                                  <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Unique</th>
+                                    <th scope="col">customer</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Service</th>
+                                    <th scope="col">Staff</th>
+                                    <th scope="col">Complete</th>
+                                    <th scope="col">Publish</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% if allapp %}
+                                        {% for ap in allapp %}
+                                        <tr>
+                                          <th scope="row">{{forloop.counter}}</th>
+                                          {% if ap.uniq %}
+                                            <td class="table-primary">{{ap.uniq}}</td>
+                                          {% else %}
+                                            <td class="table-danger">No</td>
+                                          {% endif %}
+                                          <td class="text-black">{{ap.customer}}</td>
+                                          <td style="color:red;">{{ap.phone}}</td>
+                                          <td class="table-success">{{ap.datex}}</td>
+                                          <td class="table-info">{{ap.timex}}</td>
+                                          {% if ap.service %}
+                                            <td style="color:blue;">{{ap.service}}</td>
+                                          {% else %}
+                                            <td class="table-danger">No</td>
+                                          {% endif %}
+                                          {% if ap.staff %}
+                                            <td>{{ap.staff}}</td>
+                                          {% else %}
+                                            <td class="table-danger">No</td>
+                                          {% endif %}
+                                          <td>
+                                              <form action="{% url 'apdelete' ap.id %}" method="post">
+                                                  {% csrf_token %}
+                                                  <button type="submit" class="btn btn-sm btn-danger">
+                                                  <i class="fas fa-thumbs-up"></i>
+                                                  </button>
+                                                </form>
+                                          </td>
+                                          <td style="color:green;">{{ap.fdate}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <h4 class="mt  text-center" style="color:red;"><marquee>No Appointment Yet All</marquee></h4>
+                                    {% endif %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                        {% endblock table %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-4">
+                    <div class="card">
+                        {% block last_one %}
+                        <div class="card-header">
+                            <h4>Profile Visit</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <svg class="bi text-primary" width="32" height="32" fill="blue"
+                                            style="width:10px">
+                                            <use
+                                                xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
+                                        </svg>
+                                        <h5 class="mb-0 ms-3">Europe</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="mb-0">862</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div id="chart-europe"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <svg class="bi text-success" width="32" height="32" fill="blue"
+                                            style="width:10px">
+                                            <use
+                                                xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
+                                        </svg>
+                                        <h5 class="mb-0 ms-3">America</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="mb-0">375</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div id="chart-america"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <svg class="bi text-danger" width="32" height="32" fill="blue"
+                                            style="width:10px">
+                                            <use
+                                                xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
+                                        </svg>
+                                        <h5 class="mb-0 ms-3">Indonesia</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="mb-0">1025</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div id="chart-indonesia"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endblock last_one %}
+                    </div>
+                </div>
+                <div class="col-12 col-xl-8">
+                    <div class="card">
+                        {% block last_two %}
+                        <div class="card-header">
+                            <h4>Latest Comments</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-lg">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-md">
+                                                        <img src="assets/images/faces/5.jpg">
+                                                    </div>
+                                                    <p class="font-bold ms-3 mb-0">Si Cantik</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">Congratulations on your graduation!</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-md">
+                                                        <img src="assets/images/faces/2.jpg">
+                                                    </div>
+                                                    <p class="font-bold ms-3 mb-0">Si Ganteng</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">Wow amazing design! Can you make another tutorial for
+                                                    this design?</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endblock last_two %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3">
+            {% block side_little %}
+            <small><marquee  behavior="scroll" style="color:blue;" direction="left" scrollamount="3">View Upcomming Appointment</marquee></small>
+            <div class="card">
+                <div class="card-body py-4 px-5">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl">
+                            <img src="assets/images/faces/1.jpg" alt="Face 1">
+                        </div>
+                        <div class="ms-3 name">
+                             
+                            <h5 class="font-bold">John Duck</h5>
+                            <h6 class="text-muted mb-0">@johnducky</h6>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock side_little %}
+            <div class="card">
+                {% block cardfeatur %}
+                <div class="card-header">
+                        <h4>Features</h4><span><marquee style="color:red;">
+                            manage and add your significant data by features 
+                        </marquee> </span>
+                </div>
+                <div class="card-content pb-4">
+                    <div class="recent-message d-flex px-4 py-3">
+                        <div class="avatar avatar-lg">
+                            <div class="stats-icon red">
+                                <i class="fas fa-calendar-day" style="color:black;"1></i>
+                            </div>
+                        </div> 
+                        <div class="name ms-4">
+                            <!-- Button trigger modal -->
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                {% comment %} <i class="fas fa-calendar-check"></i> {% endcomment %}
+                                Book Appointm't
+                            </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Book Appointment</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        {% if appform %}
+                                            {% for ap in appform %}
+                                                {{ap.non_filed_errors}}
+                                            {% endfor %}
+                                        {% endif %}                  
+                                        {% if messages %}
+                                            {% for mess in messages %}
+                                                <h4 class="alert alert-success text-center">{{mess}}</h4>
+                                            {% endfor %}
+                                        {% endif %}                      
+                                        <div class="">
+                                            {{appform.uniq.label_tag}}
+                                            {{appform.uniq}}
+                                        </div> <br>
+                                        <div class="">
+                                            {{appform.customer.label_tag}}
+                                            {{appform.customer}}
+                                            {{appform.customer.errors|striptags}}
+                                        </div> <br>                                        
+                                        <div class="">
+                                            {{appform.phone.label_tag}}
+                                            {{appform.phone}}
+                                            {{appform.phone.errors|striptags}}
+                                        </div>  <br>  
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="">
+                                                    {{appform.datex.label_tag}}
+                                                    {{appform.datex}}
+                                                    {{appform.datex.errors|striptags}}
+                                                </div>  <br>                                      
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="">
+                                                    {{appform.timex.label_tag}}
+                                                    {{appform.timex}}
+                                                    {{appform.timex.errors|striptags}}
+                                                </div>  <br>                                     
+                                            </div>
+                                        </div>                                 
+                                        <div class="">
+                                            {{appform.service.label_tag}}
+                                            {{appform.service}}
+                                        </div> <br>
+                                        {% comment %} <div class="">
+                                            {{appform.staff.label_tag}}
+                                            {{appform.staff}}
+                                        </div> <br>   {% endcomment %}
+                                         {{appform.staff.label_tag}}  
+                                        
+                                        <select name="mystf" id="client" class="form-control" required>
+                                          <option value="">None</option>
+                                            {% if stff %}
+                                                {% for stf in stff %}
+                                                    <option value={{stf}}>{{stf.name}}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select><br>  
+                                        <button type="submit" name="appoint" class="btn btn-primary">Book Today</button>
+
+                                        {% comment %} <button type="submit" name="appoint" class="btn btn-primary">Book Today</button> {% endcomment %}
+                                    {% comment %} <input type="submit" value="Book today" name="appoint" class="btn btn-primary"> {% endcomment %}
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </form>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                    <h6 class="text-muted mb-0">@book appo't</h6> 
+                    </div>
+                        
+                    </div>
+                    <div class="recent-message d-flex px-4 py-3">
+                        <div class="avatar avatar-lg">
+                            <div class="stats-icon purple">
+                                <i class="fas fa-users" style="color:black;"></i>
+                                {% comment %} <i class="far fa-calendar-day" style="color:black;"></i> {% endcomment %}
+                            </div>
+                        </div>
+                        <div class="name ms-4"> 
+                                <!--######## second model #########-->
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdropx">
+                                    Add New Staff
+                                </button>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="staticBackdropx" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Add Your New Staff Member...</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            {% if staform %}
+                                                {% for stferr in staform %}
+                                                    {{stferr.non_field_error}}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% if messages %}
+                                                {% for me in messages %}
+                                                    <h6 class="text-center">{{me}}</h6>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {{staform.as_p}}
+                                            <button type="submit" name="btnstf" class="btn btn-primary">Add member</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                        </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!--##########sedond model -->
+                            <h6 class="text-muted mb-0">@add staff</h6>
+                        </div>
+                    </div>
+                    <div class="recent-message d-flex px-4 py-3">
+                        <div class="avatar avatar-lg">
+                            <div class="stats-icon blue">
+                            <i class="fas fa-user-friends" style="color:black;"></i>
+                            </div>       
+                        </div>
+                        <div class="name ms-4">
+                            <h5><a href="" data-bs-toggle="modal" data-bs-target="#read_staff">View Staff</a></h5>
+                            <h6 class="text-muted mb-0">@my staff</h6>
+                        </div>
+                        <!--    view staff modal   -->
+                        <!-- Button trigger modal -->
+                         
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="read_staff" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">My Staff Information...</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Service</th>
+                                            <th scope="col">Date Joined</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if my_staff %}
+                                                {% for ms in my_staff %}
+                                                    <tr class="text-dark h6">
+                                                    <th scope="row">{{forloop.counter}}</th>
+                                                    <td>{{ms.name}}</td>
+                                                    <td>{{ms.email}}</td>
+                                                    <td>{{ms.phone}}</td>
+                                                    <td>{{ms.service}}</td>
+                                                    <td>{{ms.fdate}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <h3 class="text-danger text-center">Staff Not Available</h3>
+                                            {% endif %}
+                                                                                  
+                                        </tbody>
+                                      </table>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!--#######  view staff modal  ######-->
+                    </div>
+                    <div class="px-4">
+                        <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+                            Conversation</button>
+                        </div>
+                    </div>
+                    {% endblock cardfeatur %}
+            </div>
+            <div class="card">
+                {% block visitors  %}
+                    <div class="card-header">
+                        <h4>Visitors Profile</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart-visitors-profile"></div>
+                    </div>
+                {% endblock visitors  %}
+            </div>
+            </div>
+        </section>
+    </div>
+
+            <footer class="black">
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start text-dark">
+                        <p>Copyright  &copy; {% now 'Y' %},   All rights reserved</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Developed <span class="text-danger"><i class="fas fa-heart"></i></span> by <a
+                                href="">Dipesh Parmar</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    
+
+    <script src="{% static 'client/js/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'client/js/bootstrap.bundle.min.js' %}"></script>
+    
+<script src="{% static 'client/js/apexcharts.js' %}"></script>
+<script src="{% static 'client/js//dashboard.js' %}"></script>
+
+    <script src="{% static 'client/js/mazer.js' %}"></script>
+    <script src="{% static 'client/js/wait.js' %}"></script>
+
+    {% block myjs %}{% endblock myjs %}
+
+</body>
+
+</html>

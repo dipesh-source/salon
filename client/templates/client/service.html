@@ -1,0 +1,191 @@
+{% extends "client/layout.html" %}
+{% load static %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h3>Add New Service<span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h3>
+        <hr>
+    </div>
+    <div class="card-body card-rounded">
+        <form action="" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% if form %}
+                {% for fm in form %}
+                    {{fm.non_field_error}}
+                {% endfor %}
+            {% endif %}
+            {% if messages %}
+                {% for mes in messages %}
+                    <h5 class="alert alert-info text-center">{{mes}}</h5>
+                {% endfor %}
+            {% endif %}
+            <div>
+                {{form.name.label_tag}}
+                {{form.name}}
+                <p class="text-danger">{{form.name.errors|striptags}}</p>
+            </div>            
+            <div>
+                {{form.img.label_tag}}
+                {{form.img}}
+                <p class="text-danger">{{form.phone.errors|striptags}}</p>
+            </div>            
+            <div>
+                {{form.text.label_tag}}
+                {{form.text}}
+                {% comment %} <p class="text-danger">{{form.name.errors|striptags}}</p> {% endcomment %}
+            </div>   <br>    
+            <div>
+                {{form.cost.label_tag}}
+                {{form.cost}}
+                <p class="text-danger">{{form.cost.errors|striptags}}</p>
+            </div>      <br>     
+             
+             
+            <button type="submit" class="btn btn-success">Add service</button>
+        </form>
+        
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <div>
+        <h5 class="p-3 text-center">Add Service</h5>
+        {% comment %} <img src="{% static 'client/img/ser1.jpg' %}" alt="service image" class="img-responsive img-fluid" srcset=""> {% endcomment %}
+    </div>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h5 class="p-3">User Features</h5>
+     
+ 
+    <div class="recent-message d-flex px-4 py-3">
+        <div class="avatar avatar-lg">
+            <div class="stats-icon red">
+                <i class="fas fa-users" style="color:black;"></i>
+                {% comment %} <i class="far fa-calendar-day" style="color:black;"></i> {% endcomment %}
+            </div>
+        </div>
+        <div class="name ms-4"> 
+                <!--######## second model #########-->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdropx">
+                    view service
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdropx" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View all service...</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Service</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Note</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Uploaded</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% if data %}
+                                        {% for dt in data %}
+                                            <tr class="text-danger">
+                                            <th scope="row">{{forloop.counter}}</th>
+                                            <td>{{dt.name}}</td>
+                                            {% if dt.img %}
+                                            <td><a href="{{dt.img.url}}">{{dt.img.url}}</a></td>
+                                            {% else %}
+                                                <h6 class="tex-center">no img</h6>
+                                            {% endif %}
+                                            <td>{{dt.text}}</td>
+                                            <td>{{dt.cost}}</td>
+                                            <td>{{dt.fdate}}</td>
+                                            </tr>          
+                                        {% endfor %}
+                                    {% else %}
+                                            <h3 class="text-capitalize text-center">Service Not Available</h3>
+                                    {% endif %}
+                                </tbody>
+                              </table>                        
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--##########sedond model -->
+            <h6 class="text-muted mb-0">@add staff</h6>
+        </div>
+    </div><div class="recent-message d-flex px-4 py-3">
+        <div class="avatar avatar-lg">
+            <div class="stats-icon purple">
+                <i class="fas fa-users" style="color:black;"></i>
+                {% comment %} <i class="far fa-calendar-day" style="color:black;"></i> {% endcomment %}
+            </div>
+        </div>
+        <div class="name ms-4"> 
+                <!--######## second model #########-->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdropx">
+                    Add New Staff
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdropx" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Add Your New Staff Member...</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {% if staform %}
+                                {% for stferr in staform %}
+                                    {{stferr.non_field_error}}
+                                {% endfor %}
+                            {% endif %}
+                            {% if messages %}
+                                {% for me in messages %}
+                                    <h6 class="text-center">{{me}}</h6>
+                                {% endfor %}
+                            {% endif %}
+                            {{staform.as_p}}
+                            <button type="submit" name="btnstf" class="btn btn-primary">Add member</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--##########sedond model -->
+            <h6 class="text-muted mb-0">@add staff</h6>
+        </div>
+    </div>
+         
+    </div>
+{% endblock visitors %}

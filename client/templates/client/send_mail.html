@@ -1,0 +1,101 @@
+{% extends "client/layout.html" %}
+
+{% block mycss %}
+<style>
+       
+   
+    div.scroll {
+      
+        
+        
+        width: 190px;
+        height: 600px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align:justify;
+    }
+
+</style>
+{% endblock mycss %}
+
+{% block little %}
+    
+{% endblock little %}
+
+{% block table %}
+    {% if messages %}
+        {% for mes in messages %}
+            <h4 class="text-center font-bold text-danger">{{mes}}</h4>
+        {% endfor %}
+    {% endif %}
+    <div class="card-header">
+        <h4 class="float-end">{% now "D, d M Y" %}</h4>
+        <h4>Send E-mail To Your Customers...<span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <hr>
+    </div>
+    <div class="card-body card-rounded">
+      
+        <!-- The text field -->
+        <input type="text" class="form-control" value="http://127.0.0.1:8000/client/customer-feedback/" id="myInput">
+
+        <!-- The button used to copy the text -->
+        <center class="mt-4">
+            <button onclick="myFunction()" class="btn btn-success">Copy Feedback Link</button>
+        </center>
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="name" class="text-dark">Enter Name</label>
+            <input type="text" class="form-control" name="name" id="" required> <br>
+            <label for="Enter Email" class="text-dark">Enter Email</label>
+            <input type="email" class="form-control" placeholder="enter customer email" name="email" id="" required>
+            <br>
+            <label for="link">Send Link</label>
+            <input type="url" name="link" class="form-control" placeholder="set feedback link" id="" required>
+            <br>
+            <button type="submit" class="btn btn-danger">Send mail</button>
+        </form>
+        
+    </div>
+{% endblock table %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
+
+{% block cardfeatur %}
+    <div class=" ">
+
+        em ipsum dolor sit amet consectetur adipisicing elit. Impedit, exercitationem maiores cupiditate suscipit corrupti fugit error non esse, illum necessitatibus veniam dolorem perferendis adipisci! Enim corrupti totam dicta voluptatum eveniet.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, exercitationem maiores cupiditate suscipit corrupti fugit error non esse, illum necessitatibus veniam dolorem perferendis adipisci! Enim corrupti totam dicta voluptatum eveniet.
+
+    </div>
+{% endblock cardfeatur %}
+
+{% block visitors %}
+    <h3>dipesh Parmar</h3>
+{% endblock visitors %}
+
+{% block myjs %}
+    <script>
+        function myFunction() {
+            /* Get the text field */
+            var copyText = document.getElementById("myInput");
+          
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+          
+             /* Copy the text inside the text field */
+            navigator.clipboard.writeText(copyText.value);
+          
+            /* Alert the copied text */
+            alert("Copied the text: " + copyText.value);
+          }
+    </script>
+{% endblock myjs %}
