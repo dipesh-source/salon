@@ -884,11 +884,11 @@
                                                 {{ap.non_filed_errors}}
                                             {% endfor %}
                                         {% endif %}                  
-                                        {% if messages %}
+                                        {% comment %} {% if messages %}
                                             {% for mess in messages %}
                                                 <h4 class="alert alert-success text-center">{{mess}}</h4>
                                             {% endfor %}
-                                        {% endif %}                      
+                                        {% endif %}                       {% endcomment %}
                                         <div class="">
                                             {{appform.uniq.label_tag}}
                                             {{appform.uniq}}

@@ -49,19 +49,21 @@ def client_home(request):
                 if not working in future 
                 so, change the date validation
             '''
-            if datetime.date.today() == dt:
-                apt = Appointment(user=request.user, uniq=un, customer=cu,
+            # if datetime.date.today() == dt:
+            apt = Appointment(user=request.user, uniq=un, customer=cu,
                               phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
-                apt.save()
-                appf = Appointment_form()
-                messages.success(request, 'Appointment Book Successfully')
-            elif dt >= datetime.date.today():
-                what = Appointment_data(user=request.user, uniq=un, customer=cu,
-                              phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
-                what.save()
-                messages.success(request, 'Appointment Book Successfully')
-            else:
-                messages.error(request,f'''Selected {dt}, Select Correct Date''')
+            apt.save()
+            messages.success(request, 'Appointment Book Successfully')
+
+            appf = Appointment_form()
+            #     messages.success(request, 'Appointment Book Successfully')
+            # elif dt >= datetime.date.today():
+            #     what = Appointment_data(user=request.user, uniq=un, customer=cu,
+            #                   phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
+            #     what.save()
+            #     messages.success(request, 'Appointment Book Successfully')
+            # else:
+            #     messages.error(request,f'''Selected {dt}, Select Correct Date''')
     else:
         appf = Appointment_form()
     if request.method == 'POST' and 'btnstf' in request.POST:
@@ -86,14 +88,14 @@ def client_home(request):
                 messages.success(request, 'staff is added')
     else:
         stffm = Staff_form()
-    app = Appointment_data.objects.filter(user=request.user).count()
+    app = Appointment.objects.filter(user=request.user).count()
     today = Appointment.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today())).count()
     today_ap = Appointment.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today()))
-    upcome = Appointment_data.objects.filter(
+    upcome = Appointment.objects.filter(
         Q(user=request.user) & Q(datex__gt=datetime.date.today())).count()
-    upapp = Appointment_data.objects.filter(
+    upapp = Appointment.objects.filter(
         Q(user=request.user) & Q(datex__gt=datetime.date.today()))
     allapp = Appointment.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today())).order_by('id').reverse()
@@ -193,7 +195,7 @@ def in_time(request):
 '''
 def upcomeing_delete(request,updele):
     try:
-        up_delete = Appointment_data.objects.get(pk=updele)
+        up_delete = Appointment.objects.get(pk=updele)
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Has Incorrect, Check Again Or Refresh The Page</center></h1>')
     except MultipleObjectsReturned:
@@ -764,7 +766,11 @@ def get_month_salary(request,get_sl):
     my_salary = Salary.objects.filter( Q(user=request.user) & Q(staff=data) )
     form = Salary_filter(request.GET, queryset=my_salary)
     all_data = form.qs
-    context = {'salary':all_data,'name':data,'form':form}
+    view_adv = Advanced_salary.objects.filter(user=request.user)
+    ad_form = Advanced_filter(request.GET, queryset=view_adv)
+    ad_data = ad_form.qs
+    print('checkkkkkkkkkkkkkkkkkkkkkk',view_adv)
+    context = {'salary':all_data,'name':data,'form':form,'view_ad':ad_data,'ad_form':ad_form}
     return render(request,'client/get_salary.html',context)
 
 '''

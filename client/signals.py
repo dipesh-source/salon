@@ -1,3 +1,4 @@
+from django.db.models import Q
 import datetime
 from .models import Appointment, Appointment_data, Local_appointment, Staff, Timeing
 from django.db.models.signals import (
@@ -7,13 +8,16 @@ from django.db.models.signals import (
 from django.dispatch import receiver
 
 
-@receiver(post_save, sender=Appointment)
-def after_appointment(sender, instance, **kwargs):
-    after = Appointment_data(user=instance.user, uniq=instance.uniq, 
-    customer=instance.customer, phone=instance.phone,
-    datex=instance.datex, timex=instance.timex,
-    service=instance.service, staff=instance.staff, fdate=instance.fdate)
-    after.save()
+@receiver(pre_delete, sender=Appointment)
+def after_appointment(sender, instance,**kwargs):
+    print('my instace ',instance)
+    print('all instance ',instance.user)
+    if not Appointment.objects.get( Q(user=instance.user) & Q(datex__gt = datetime.date.today())):
+        after = Appointment_data(user=instance.user, uniq=instance.uniq, 
+        customer=instance.customer, phone=instance.phone,
+        datex=instance.datex, timex=instance.timex,
+        service=instance.service, staff=instance.staff, fdate=instance.fdate)
+        after.save()
 
 
 @receiver(post_save, sender=Appointment)
