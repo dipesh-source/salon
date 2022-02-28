@@ -174,11 +174,11 @@ def in_time(request):
         Q(user=request.user) & Q(datex=datetime.date.today())).count()
     today_ap = Appointment.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today()))
-    upcome = Appointment_data.objects.filter(
+    upcome = Appointment.objects.filter(
         Q(user=request.user) & Q(datex__gt=datetime.date.today())).count()
-    upapp = Appointment_data.objects.filter(
+    upapp = Appointment.objects.filter(
         Q(user=request.user) & Q(datex__gt=datetime.date.today()))
-    app = Appointment_data.objects.filter(user=request.user).count()
+    app = Appointment.objects.filter(user=request.user).count()
     x = datetime.datetime.now()
     y = timedelta(hours=1)
     next = Appointment.objects.filter(Q(user=request.user) & Q(
