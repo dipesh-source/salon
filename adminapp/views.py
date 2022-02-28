@@ -27,12 +27,12 @@ def login_view(request):
                 au = authenticate(username = us,password = pas)
                 if au is not None:
                     login(request, au)
-                    if request.user.is_superuser:
-                        return HttpResponseRedirect('/myadmin/mainpage/')
-                    elif request.user.is_authenticated:
-                        return HttpResponseRedirect('/client/homepage/')
-                    else:
-                        return None
+                    # if request.user.is_superuser:
+                    #     return HttpResponseRedirect('/myadmin/mainpage/')
+                    # elif request.user.is_authenticated:
+                    return HttpResponseRedirect('/client/homepage/')
+                    # else:
+                    #     return None
             else:
                 messages.error(request, 'check username or password')
         else:
@@ -62,6 +62,7 @@ def homepage(request):
 '''
     delets access
 '''
+@user_passes_test(lambda u : u.is_superuser, login_url='/')
 def delete_access_data(request,del_data):
     try:
         apd = Extend_access.objects.get(pk=del_data)
