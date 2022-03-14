@@ -7,7 +7,7 @@
 {% block table %}
     <div class="card-header">
         <h4 class="float-end">{% now "D, d M Y" %}</h4>
-        <h3>Customer Feedback<span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h3>
+        <h3>Customer Feedback<span class="h4"><small style="color:blue;"><p id="demo"></p></small></span> </h3>
     </div>
     <hr>
     <div class="card-body card-rounded">
@@ -67,3 +67,7 @@
 {% block visitors %}
     <h3>dipesh Parmar</h3>
 {% endblock visitors %}
+
+
+{% block chart %}
+{% endblock chart %}

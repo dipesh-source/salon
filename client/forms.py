@@ -5,14 +5,93 @@ from .models import (
     Staff, Appointment, Appointment_data,
     Local_appointment, Service,
     Salary, Gallery, Feedback, Timeing,
-    Advanced_salary,
+    Advanced_salary,Package_name, My_package,
+    Create_packages, Customers_package
 )
+#####################  all the packages code hehe   ####################
+
+'''
+    create package name form
+'''
+class Package_name_form(forms.ModelForm):
+    class Meta:
+        model = Package_name
+        fields = ['name','total']
+        labels = {
+            'name':'Create Package Name',
+            'total':'Total Price Of Package'
+        }
+        widgets = {
+            'name':forms.TextInput(attrs={'class':'form-control'}),
+            'total':forms.NumberInput(attrs={'class':'form-control'}),
+        }
+        error_messages = {
+            'name':{'required':'Please, create name'},
+        }
+
+    
+'''
+    will create package form
+'''
+class Create_package_form(forms.ModelForm):
+    class Meta:
+        model = Create_packages
+        fields = ['fack','service','qty','price']
+        labels = {
+            # 'fack':'Select Name',
+            'service':'Enter Service Name',
+            'qty':'Enter quentity',
+            'price':'Enter Points'
+        }
+        widgets = {
+            'service':forms.TextInput(attrs={'class':'form-control'}),
+            'qty':forms.NumberInput(attrs={'class':'form-control'}),
+            'price':forms.NumberInput(attrs={'class':'form-control'}),
+        }
+        error_messages = {
+            'service':{'required':'enter service name'},
+            'qty':{'required':'enter qty'},
+            'price':{"required":'enter points'}
+        }
+
+'''
+    create the customers packages form
+'''
+class Customers_package_form(forms.ModelForm):
+    pk_name = forms.ModelChoiceField(queryset=Create_packages.objects.all(),label='Select Name',widget=forms.Select(attrs={'class':'form-control'}))
+    class Meta:
+        model = Customers_package
+        fields = ['pk_name','name','contact','email','advance','total']
+        labels = {
+            'pk_name':'select package',
+            'name':'Enter Name',
+            'contact':'Enter Contact Number',
+            'advance':'Advance Payment',
+            'total':'Total Payment'
+        }
+        widgets = {
+            # 'pk_name':forms.ModelChoiceField(queryset=Create_packages.objects.all()),
+            'name':forms.TextInput(attrs={'class':'form-control'}),
+            'contact':forms.NumberInput(attrs={'class':'form-control'}),
+            'email':forms.EmailInput(attrs={'class':'form-control'}),
+            'advance':forms.NumberInput(attrs={'class':'form-control'}),
+            'total':forms.NumberInput(attrs={'class':'form-control'}),
+        }
+        error_messages = {
+            'pk_name':{'required':'Select Package'},
+            'name':{'required':'enter name'},
+            'contact':{'required':'enter phone number'},
+        }
+        
+
+#####################  all the packages code hehe   ####################
+
 
 '''
     staff form
 '''
 class Staff_form(forms.ModelForm):
-    profile = forms.ImageField(required=False)
+    profile = forms.ImageField(required=False,widget=forms.FileInput())
     class Meta:
         model = Staff
         fields = ['profile','name','phone','email','service']
@@ -101,6 +180,9 @@ class Localappointment_form(forms.ModelForm):
     service forms
 '''
 class Service_form(forms.ModelForm):
+    # img = forms.CharField(required=False, label='Select Img',label_suffix='',
+    # widget=forms.FileInput()
+    # )
     class Meta:
         model = Service
         fields = ['name','img','text','cost']
@@ -229,6 +311,6 @@ class Timeing_form(forms.ModelForm):
         #     'in_time':{'required':'please, select In-Time'},
         #     # 'out_time':{'required':'please, select Out-Time'},
         # }
-        widgets = {
-            'staff' : forms.Select()
-        }
+        # widgets = {
+        #     'staff' : forms.Select()
+        # }

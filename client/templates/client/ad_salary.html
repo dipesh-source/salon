@@ -5,6 +5,39 @@
 {% endblock little %}
 
 {% block side_little %}
+<div class="card-header">
+    <h3>more features </h3> <hr>
+    <li
+    class="sidebar-item  ">
+    <a href="{% url 'salary' %}" class='sidebar-link'>
+        <i class="fas fa-dollar-sign"></i>
+        <span>Salary</span>
+    </a>
+  </li>
+  <li
+    class="sidebar-item  ">
+    <a href="{% url 'payad' %}" class='sidebar-link'>
+        <i class="fas fa-rupee-sign"></i>
+        <span>Advanced</span>
+    </a>
+  </li>
+  
+  <li
+    class="sidebar-item  ">
+    <a href="{% url 'salary_data' %}" class='sidebar-link'>
+        <i class="fas fa-eye"></i>
+        <span>View Data</span>
+    </a>
+  </li>
+  
+  <li
+    class="sidebar-item  ">
+    <a href="application-gallery.html" class='sidebar-link'>
+        <i class="fas fa-user-slash"></i>
+        <span>Remove Data</span>
+    </a>
+  </li>
+  </div>
 {% endblock side_little %}
 
 {% block table %}
@@ -45,54 +78,21 @@
 <div class="card-header">
     <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
 </div>
-<div class="px-4 pb-4">
-    <div class="card-content pb-4">
+<div class="px-4">
+    <div class="card-content ">
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
-                {% now "h:i:s,A" %}
+                <p id="deom"></p>
             </span>
         </div>
     </div>
-    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
-        Conversation</button>
+ 
 </div>
 {% endblock cardfeatur %}
 
 {% block visitors  %}
-<div class="card-header">
-    <h3>more features </h3> <hr>
-    <li
-    class="sidebar-item  ">
-    <a href="{% url 'salary' %}" class='sidebar-link'>
-        <i class="fas fa-dollar-sign"></i>
-        <span>Salary</span>
-    </a>
-  </li>
-  <li
-    class="sidebar-item  ">
-    <a href="{% url 'payad' %}" class='sidebar-link'>
-        <i class="fas fa-rupee-sign"></i>
-        <span>Advanced</span>
-    </a>
-  </li>
-  
-  <li
-    class="sidebar-item  ">
-    <a href="{% url 'salary_data' %}" class='sidebar-link'>
-        <i class="fas fa-eye"></i>
-        <span>View Data</span>
-    </a>
-  </li>
-  
-  <li
-    class="sidebar-item  ">
-    <a href="application-gallery.html" class='sidebar-link'>
-        <i class="fas fa-user-slash"></i>
-        <span>Remove Data</span>
-    </a>
-  </li>
-  </div>
+
 {% endblock visitors  %}
 
 {% block last_one %}
@@ -100,3 +100,5 @@
 
 {% block last_two %}
 {% endblock last_two %}
+
+{% block chart %}{% endblock chart %}

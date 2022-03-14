@@ -38,8 +38,10 @@
             </div> {% endcomment %}
             
             <div > 
+
+
                 
-                
+                {{out_name}}
                 {{upform.staff.label_tg}}
                 {% comment %} <fieldset disabled> {% endcomment %}
                                    {{upform.staff}}
@@ -49,6 +51,14 @@
 
             <button type="submit" class="btn btn-warning">submit Out-Time</button>
         </form>
+        <select name="mystf" id="client" class="form-control" required>
+            <option value="">None</option>
+                {% if stff %}
+                    {% for stf in stff %}
+                        <option value={{stf}}>{{stf.name}}</option>
+                        {% endfor %}
+                {% endif %}
+            </select><br>
     </div>
  
 
@@ -63,7 +73,7 @@
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
-                {% now "h:i:s,A" %}
+                <p id="demo"></p>
             </span>
         </div>
     </div>
@@ -81,3 +91,7 @@
 
 {% block last_two %}
 {% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

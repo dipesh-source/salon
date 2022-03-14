@@ -1,0 +1,141 @@
+{% extends "client/layout.html" %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block mycss %}
+<style>
+    
+        
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 700px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+
+{% block side_little %}
+<div class="card-header mb-3 mt-3">
+    <h5 class="text-capitalize">Create package</h5> <hr>
+    <center>
+        <a href="" data-bs-toggle="modal"  data-bs-target="#today">
+            {% comment %} <div class="stats-icon blue"> {% endcomment %}
+                <i class="fas fa-gift" style="font-size:40px;color:green;"></i>
+            {% comment %} </div> {% endcomment %}
+        </a>
+    </center>
+    <div class="col-md-4">
+        <!-- Modal -->
+        <div class="modal fade" id="today" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header   bg-success">
+                    <h3 class="modal-title text-white" id="staticBackdropLabel">create package / </h3> <br>
+                    <h3 class="float-end text-white modal-title" style="color:red;"> {% now "D, d M Y" %}</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="h6 text-black" style="background-color:whitesmoke;">
+                        pandding
+                        {% comment %} Create various packages by adding name, price and general details required. You can also create multiple packages and tag related services. {% endcomment %}
+                    </h6>
+                <!--############ serach today appointment ##############-->
+        
+                
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="scroll">
+<div class="card-header">  
+    <h5 class="text-capitalize">Create package</h5>
+    <hr>
+    
+</div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
+        Conversation</button>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+<div class="card-header">
+ 
+</div>
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+
+                    
+{% endblock last_two %}
+    
+
+{% block chart %}
+{% endblock chart %}
+
+
+
+<div class="table-responsive table-responsive-lg table-responsive-xxl table-responsive-sm"> 
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if pack %}
+                {% for pc in pack %}
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <center>
+                    <i class="fas fa-history" style="font-size:80px;"></i>
+                </center>
+            {% endif %}
+           
+        </tbody>
+      </table>
+      </div> 
+

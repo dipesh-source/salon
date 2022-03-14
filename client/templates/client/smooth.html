@@ -88,7 +88,8 @@
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
-                {% now "h:i:s,A" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
             </span>
         </div>
     </div>
@@ -102,3 +103,7 @@
 
 {% block last_two %}
 {% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

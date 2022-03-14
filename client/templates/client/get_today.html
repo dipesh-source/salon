@@ -13,7 +13,7 @@
     <div class="card-header">
         <div class="text-danger h6">This data is just for your daily work analysis, it will update for daily basis</div>
         <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped h6 table-hover text-dark">
             <thead>
               <tr>
                 <th scope="col">Id</th>
@@ -26,7 +26,7 @@
             <tbody>
                 {% if data %}
                     {% for dt in data %}
-                        <tr>
+                        <tr class="text-dark">
                         <th scope="row">{{forloop.counter}}</th>
                         <td>{{dt.customer}}</td>
                         <td>{{dt.phone}}</td>
@@ -64,7 +64,8 @@
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
-                {% now "h:i:s,A" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
             </span>
         </div>
     </div>
@@ -79,3 +80,7 @@
 
 {% block last_two %}
 {% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

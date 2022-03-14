@@ -1,9 +1,29 @@
 from django.contrib import admin
 from .models import (
-    Advanced_salary, Product, Purchase, Staff, Appointment, Appointment_data,
+    Advanced_salary, Product, Purchase,
+    Staff, Appointment, Appointment_data,
     Local_appointment, Service,
-    Salary, Gallery, Feedback, Timeing
+    Salary, Gallery, Feedback, Timeing,
+    Package_name, Create_packages,
+    Customers_package, My_package
 )
+
+@admin.register(Package_name)
+class Pack_name(admin.ModelAdmin):
+    list_display = ['id','user','name','total','fdate']
+
+@admin.register(Create_packages)
+class Pack_name(admin.ModelAdmin):
+    list_display = ['id','user','name','fack','service','qty','price','special','fdate']
+
+@admin.register(Customers_package)
+class Pack_name(admin.ModelAdmin):
+    list_display = ['id','user','pk_names','pk_name','name','contact','email','advance','total','fdate']
+
+@admin.register(My_package)
+class Pack_name(admin.ModelAdmin):
+    list_display = ['id','user','customers','cust','fack','service','qty','price','special','fdate']
+
 
 # @admin.register(Staffwork)
 # class staff(admin.ModelAdmin):
@@ -17,7 +37,7 @@ class staff(admin.ModelAdmin):
 
 @admin.register(Timeing)
 class time(admin.ModelAdmin):
-    list_display = ['id','user','staff','in_date','in_time','out_date','out_time','fdate']
+    list_display = ['id','user','staff','in_date','in_time','out_date','out_time','fdate','tell']
 
 
 @admin.register(Service)

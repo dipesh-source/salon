@@ -30,10 +30,10 @@
                 <hr />
                 <div class="col-sm-6">
                   <div class="">
-                    <fieldset disabled> 
+                    {% comment %} <fieldset disabled>  {% endcomment %}
                     {{form.user.label_tag}} 
                      {{form.user}} 
-                    </fieldset> 
+                    {% comment %} </fieldset>  {% endcomment %}
                     <p class="text-danger h6">{{form.user.errors|striptags}}</p>
                   </div>
                 </div>

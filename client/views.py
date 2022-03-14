@@ -5,15 +5,25 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.db.models import Q
-from .filter import App_filter, Local_filter, Salary_filter, Advanced_filter
+from .filter import ( 
+    App_filter, Local_filter,
+    Salary_filter, Advanced_filter,
+    Product_sales
+)
 from datetime import date, timedelta
 from django.utils import timezone
 from django.conf import settings
 
-from smtplib import SMTPAuthenticationError, SMTPConnectError, SMTPDataError, SMTPException, SMTPNotSupportedError, SMTPRecipientsRefused, SMTPResponseException, SMTPSenderRefused
+from smtplib import ( SMTPAuthenticationError, SMTPConnectError, 
+    SMTPDataError, SMTPException,
+    SMTPNotSupportedError, SMTPRecipientsRefused,
+    SMTPResponseException, SMTPSenderRefused
+)
+
 import datetime
 from .forms import (
-    AdvanceSalary_form, Localappointment_form, Staff_form, Timeing_form, Salary_form, Service_form,
+    AdvanceSalary_form, Localappointment_form,
+    Staff_form, Timeing_form, Salary_form, Service_form,
     Local_appointment, Appointment_form,
     Gallery_form, Feedback_form, Appointment_form,
 )
@@ -52,10 +62,17 @@ def client_home(request):
             # if datetime.date.today() == dt:
             apt = Appointment(user=request.user, uniq=un, customer=cu,
                               phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
-            apt.save()
-            messages.success(request, 'Appointment Book Successfully')
-
-            appf = Appointment_form()
+            if Appointment.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists() or Appointment_data.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists(): 
+                messages.error(request, f"""Create unique, already data exists with {un}""")
+            elif Appointment.objects.filter(Q(user=request.user) & Q(customer=cu)).exists():
+                messages.error(
+                    request, f"""{cu} is alredy booked""")
+            elif dt < datetime.date.today():
+                messages.info(request,f"""select correct date,{dt} is not valid""")
+            else:
+                apt.save()
+                messages.success(request, 'Appointment Book Successfully')
+                appf = Appointment_form()
             #     messages.success(request, 'Appointment Book Successfully')
             # elif dt >= datetime.date.today():
             #     what = Appointment_data(user=request.user, uniq=un, customer=cu,
@@ -88,7 +105,7 @@ def client_home(request):
                 messages.success(request, 'staff is added')
     else:
         stffm = Staff_form()
-    app = Appointment.objects.filter(user=request.user).count()
+    app = Appointment_data.objects.filter(user=request.user).count()
     today = Appointment.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today())).count()
     today_ap = Appointment.objects.filter(
@@ -116,7 +133,7 @@ def client_home(request):
     user_staff = Staff.objects.filter(user=request.user)
     print('ttttttttttttttiming ------------', x-y, 'currrrrrent time ', x)
     print(by, "+++===========================+++")
-    print(allapp.query )
+    print(allapp.query)
     context = {'form': form, 'my_staff': user_staff, 'staform': stffm, 'nextapp': next, 'nexnt': nxct, 'stff': stfff, 'upapp': upapp,
                'toapp': today_ap, 'apsf': apsf, 'appform': appf, 'total': app, 'today': today, 'upcome': upcome, 'allapp': data}
     return render(request, 'client/layout.html', context)
@@ -135,11 +152,20 @@ def client_test(request):
 def delete_appointment(request, delid):
     try:
         apd = Appointment.objects.get(pk=delid)
-        messages.success(request, "Appoi't Deleted Successfully")
+        apd.delete()
+        messages.success(request, "Appoi't Successfully")
     except ObjectDoesNotExist:
         return HttpResponse("<h1>Data Not Found<br></h1>ObjectDoesNotExist Exception Occur...<small><small/>")
-    apd.delete()
     return redirect('/client/homepage/')
+
+
+'''
+    will create the packages for the customeres
+'''
+
+
+def create_packages(request):
+    return render(request, 'client/package.html')
 
 
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
@@ -165,7 +191,6 @@ def in_time(request):
                 messages.success(request, f'''{lela} In Time Is Saved''')
     else:
         tim = Timeing_form()
-
     stfff = Staff.objects.filter(user=request.user)
     mytime = Timeing.objects.filter(
         Q(user=request.user) & Q(in_date=datetime.date.today()))
@@ -178,7 +203,7 @@ def in_time(request):
         Q(user=request.user) & Q(datex__gt=datetime.date.today())).count()
     upapp = Appointment.objects.filter(
         Q(user=request.user) & Q(datex__gt=datetime.date.today()))
-    app = Appointment.objects.filter(user=request.user).count()
+    app = Appointment_data.objects.filter(user=request.user).count()
     x = datetime.datetime.now()
     y = timedelta(hours=1)
     next = Appointment.objects.filter(Q(user=request.user) & Q(
@@ -191,17 +216,41 @@ def in_time(request):
     return render(request, 'client/intime.html', context)
 
 '''
+    will change the out time from this function
+'''
+def change_out_time(request,upoutx):
+    try:
+        dt = Timeing.objects.get( Q(user=request.user) & Q(pk=upoutx) )
+        dt.tell = True
+        dt.save()
+        # delta = datetime.combine(date.today(), i.outTime) - datetime.combine(date.today(), i.inTime)
+
+        messages.success(request,f"""{dt.staff} Out Is Success""")
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Has Incorrect, Check Again Or Refresh The Page <br> <small>Object Not Exists</small></center></h1>')
+    except MultipleObjectsReturned:
+        return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
+
+    return redirect('/client/staff-in-time/')
+
+'''
     function will delete upcomming apppointment
 '''
-def upcomeing_delete(request,updele):
+
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def upcomeing_delete(request, updele):
     try:
-        up_delete = Appointment.objects.get(pk=updele)
+        up_delete = Appointment.objects.get(
+            Q(pk=updele) & Q(user=request.user))
+        up_delete.delete()
+        messages.error(request, "upcomming appo't deleted")
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Has Incorrect, Check Again Or Refresh The Page</center></h1>')
     except MultipleObjectsReturned:
         return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
-    up_delete.delete()
     return redirect('/client/homepage/')
+
+
 '''
     will render the out time for the staff member
 '''
@@ -209,25 +258,33 @@ def upcomeing_delete(request,updele):
 
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def out_time(request, upout):
-    if request.method == 'POST':
-        try:
-            upid = Timeing.objects.get(pk=upout)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound('<h1 style="color">Your Data In Now Found</h1>')
+    # if request.method == 'POST':
+    #     sff = request.POST.get('mystf')
+    #     try:
+    #         upid = Timeing.objects.get(pk=upout)
+    #     except ObjectDoesNotExist:
+    #         return HttpResponseNotFound('<h1 style="color">Your Data In Now Found</h1>')
         # upid = Timeing.objects.get(pk=upout)
-        upfm = Timeing_form(request.POST, instance=upid)
-        if upfm.is_valid():
-            upfm.save()
-            messages.success(request, 'Out-Time is updated')
-    else:
+        # try:
+        #     lela = Staff.objects.get(Q(user=request.user) & Q(name=sff))
+        # except ObjectDoesNotExist:
+        #     return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Has Incorrect, Check Again Or Refresh The Page</center></h1>')
+        # except MultipleObjectsReturned:
+        #     return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
+    #     upfm = Timeing_form(request.POST, instance=upid)
+    #     if upfm.is_valid():
+    #         # upfm.save()
+    #         print('my all instance is here ',upid)
+    #         messages.success(request, f"""{upout} Out-Time is updated""")
+    # else:
         # upid = Timeing.objects.get(pk=upout)
-        try:
-            upid = Timeing.objects.get(pk=upout)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound('<h1 style="color:red;">Your Data Is Not Found</h1>')
-        print('_______________ my post request ________________')
-    upfm = Timeing_form(instance=upid)
-    stfff = Staff.objects.filter(user=request.user)
+    try:
+        upid = Timeing.objects.get(pk=upout)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Is Not Found</h1>')
+    print('_______________ my post request ________________')
+    # upfm = Timeing_form(instance=upid)
+    stfff = Staff.objects.filter( user=request.user )
     print('#############################', stfff)
     today = Appointment.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today())).count()
@@ -245,8 +302,8 @@ def out_time(request, upout):
     # print(next.query)
     nxct = Appointment.objects.filter(Q(user=request.user) & Q(
         datex=datetime.date.today()) & Q(timex__range=(x, x+y))).count()
-    context = {'upform': upfm, 'nextapp': next, 'nexnt': nxct, 'total': app,
-               'stff': stfff, 'today': today, 'toapp': today_ap, 'upcome': upcome, 'upapp': upapp}
+    context = { 'nextapp': next, 'nexnt': nxct, 'total': app,
+               'stff': stfff, 'today': today, 'out_name': upid.staff, 'toapp': today_ap, 'upcome': upcome, 'upapp': upapp}
     return render(request, 'client/outtime.html', context)
 
 
@@ -401,7 +458,7 @@ def staff_update(request, stup):
             sff = Staff.objects.get(pk=stup)
         except ObjectDoesNotExist:
             return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found</h1>')
-        fm = Staff_form(request.POST, instance=sff)
+        fm = Staff_form(request.POST, request.FILES, instance=sff)
         if fm.is_valid():
             fm.save()
             messages.success(request, 'staff updated successfully')
@@ -412,7 +469,9 @@ def staff_update(request, stup):
         except ObjectDoesNotExist:
             return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found</h1>')
         fm = Staff_form(instance=sff)
-    context = {'form': fm}
+    pro = Staff.objects.get( Q(user=request.user) & Q(pk=stup) )
+    print('////////////////////////////',pro.profile)
+    context = {'form': fm,'data':pro}
     return render(request, 'client/up_staff.html', context)
 
 
@@ -517,7 +576,8 @@ def service(request):
     else:
         sfm = Service_form()
     data = Service.objects.filter(user=request.user)
-    return render(request, 'client/service.html', {'form': sfm, 'data': data})
+    scount = Service.objects.filter(user=request.user).count()
+    return render(request, 'client/service.html', {'form': sfm, 'data': data,'cnt':scount})
 
 
 '''
@@ -528,7 +588,8 @@ def service(request):
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def today_work(request):
     to_wk = Staff.objects.filter(user=request.user)
-    context = {'data': to_wk}
+    to_wk_ct = Staff.objects.filter(user=request.user).count()
+    context = {'data': to_wk, 'cnt': to_wk_ct}
     return render(request, 'client/today_work.html', context)
 
 
@@ -549,13 +610,29 @@ def get_today_work(request, sname):
         Q(user=request.user) & Q(datex=datetime.date.today()) & Q(staff=ssff))
     towork_count = Appointment_data.objects.filter(
         Q(user=request.user) & Q(datex=datetime.date.today()) & Q(staff=ssff)).count()
+    print(towork, '&&&&&&&&&&&&1&&&&&&&&&&&&&&&&&',
+          towork_count, datetime.date.today())
     context = {'data': towork, 'sname': sname, 'total': towork_count}
     return render(request, 'client/get_today.html', context)
 
 
 '''
+     check all the customers product data
+'''
+
+
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def customers_records(request):
+    data_my = Purchase.objects.filter(user=request.user)
+    formx = Product_sales(request.GET, queryset=data_my)
+    data = formx.qs
+    context = {'data': data, 'form': formx}
+    return render(request, 'client/my_records.html', context)
+
+
+'''
     will return all the last month work of every 
-    staff member 
+    staff member
 '''
 
 
@@ -576,8 +653,10 @@ def last_month_data(request, ssname):
         return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Multiple Object Return</h1>')
     data = Appointment_data.objects.filter(Q(user=request.user) & Q(staff=ssfff) & Q(
         datex__range=(start_day_of_prev_month, last_day_of_prev_month))).order_by('id').reverse()
+    mcnt = Appointment_data.objects.filter(Q(user=request.user) & Q(staff=ssfff) & Q(
+        datex__range=(start_day_of_prev_month, last_day_of_prev_month))).count()
     print(data.query)
-    return render(request, 'client/lastm.html', {'data': data})
+    return render(request, 'client/lastm.html', {'data': data, 'name': ssname, 'mcnt': mcnt})
 
 
 '''
@@ -697,27 +776,31 @@ def staff_salary(request):
             #     except MultipleObjectsReturned:
             #         return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
             #     print('2222222222222222222222222222222222222',adst)
-            sala = Salary(user=request.user,staff=lela,pay=pay,extra=ex,month=month)
+            sala = Salary(user=request.user, staff=lela,
+                          pay=pay, extra=ex, month=month)
             sala.save()
-            messages.success(request,f'''{lela} salary has serve''')
+            messages.success(request, f'''{lela} salary has serve''')
             fm = Salary_form()
             # else:
-                # sala = Salary(user=request.user,staff=lela,pay=pay,extra=ex,month=month)
-                # sala.save()
-                # messages.success(request,'salary has stored')
-                # fm = Salary_form()
-            # except ObjectDoesNotExist: 
+            # sala = Salary(user=request.user,staff=lela,pay=pay,extra=ex,month=month)
+            # sala.save()
+            # messages.success(request,'salary has stored')
+            # fm = Salary_form()
+            # except ObjectDoesNotExist:
             #     return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>while store advanced salary object it does not exist</center></h1>')
 
     else:
         fm = Salary_form()
     stfff = Staff.objects.filter(user=request.user)
-    context = {'form':fm,'stff':stfff}
-    return render(request, 'client/salary.html',context)
+    context = {'form': fm, 'stff': stfff}
+    return render(request, 'client/salary.html', context)
+
 
 '''
     for the advanced salary of the staff
 '''
+
+
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def advanced_salary(request):
     if request.method == 'POST':
@@ -732,15 +815,17 @@ def advanced_salary(request):
                 return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
             ad_pay = fm.cleaned_data['pay']
             ad_month = fm.cleaned_data['month']
-            ad_pay = Advanced_salary(user=request.user,staff=lela, pay=ad_pay,month=ad_month)
+            ad_pay = Advanced_salary(
+                user=request.user, staff=lela, pay=ad_pay, month=ad_month)
             ad_pay.save()
             fm = AdvanceSalary_form()
-            messages.success(request,'advanced salary has provide')
+            messages.success(request, 'advanced salary has provide')
     else:
         fm = AdvanceSalary_form()
     stfff = Staff.objects.filter(user=request.user)
-    context = {'form':fm,'stff':stfff}
-    return render(request,'client/ad_salary.html',context)
+    context = {'form': fm, 'stff': stfff}
+    return render(request, 'client/ad_salary.html', context)
+
 
 '''
     will render all the salary data of the staff
@@ -750,28 +835,33 @@ def advanced_salary(request):
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def salary_data(request):
     stfff = Staff.objects.filter(user=request.user)
-    context = {'stff':stfff}
-    return render(request, 'client/salary_data.html',context)
+    context = {'stff': stfff}
+    return render(request, 'client/salary_data.html', context)
+
 
 '''
     function will fatch staff month salary
 '''
-def get_month_salary(request,get_sl):
+
+
+def get_month_salary(request, get_sl):
     try:
-        data = Staff.objects.get( Q(user=request.user) & Q(name=get_sl) )
+        data = Staff.objects.get(Q(user=request.user) & Q(name=get_sl))
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Has Incorrect, Check Again Or Refresh The Page</center></h1>')
     except MultipleObjectsReturned:
         return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
-    my_salary = Salary.objects.filter( Q(user=request.user) & Q(staff=data) )
+    my_salary = Salary.objects.filter(Q(user=request.user) & Q(staff=data))
     form = Salary_filter(request.GET, queryset=my_salary)
     all_data = form.qs
     view_adv = Advanced_salary.objects.filter(user=request.user)
     ad_form = Advanced_filter(request.GET, queryset=view_adv)
     ad_data = ad_form.qs
-    print('checkkkkkkkkkkkkkkkkkkkkkk',view_adv)
-    context = {'salary':all_data,'name':data,'form':form,'view_ad':ad_data,'ad_form':ad_form}
-    return render(request,'client/get_salary.html',context)
+    print('checkkkkkkkkkkkkkkkkkkkkkk', view_adv)
+    context = {'salary': all_data, 'name': data,
+               'form': form, 'view_ad': ad_data, 'ad_form': ad_form}
+    return render(request, 'client/get_salary.html', context)
+
 
 '''
     will return the generatr the TIMEING report 

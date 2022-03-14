@@ -1,0 +1,57 @@
+{% extends "client/layout.html" %}
+{% load static %}
+
+
+
+{% block little %}
+
+{% endblock little %}
+
+{% block mycss %}
+<style>
+    
+        
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 360px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+
+
+
+{% block side_little %}
+ 
+{% endblock side_little %}
+
+{% block table %}
+<div class="scroll">
+   {{form.form.as_p}}
+</div>
+{% endblock table %}
+
+
+{% block cardfeatur %}
+ 
+ 
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

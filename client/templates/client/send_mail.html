@@ -30,7 +30,7 @@
     {% endif %}
     <div class="card-header">
         <h4 class="float-end">{% now "D, d M Y" %}</h4>
-        <h4>Send E-mail To Your Customers...<span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <h4>Send E-mail To Your Customers...<span><small style="color:blue;"><p id="demo"></p></small></span> </h4>
         <hr>
     </div>
     <div class="card-body card-rounded">
@@ -99,3 +99,7 @@
           }
     </script>
 {% endblock myjs %}
+
+
+{% block chart %}
+{% endblock chart %}

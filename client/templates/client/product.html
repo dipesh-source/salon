@@ -27,14 +27,75 @@
 
 
 {% block side_little %}
- 
+<div class="card-header">
+    <p class="h6">Check product</p>
+    
+        <center>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#whole">
+                Analyze Product
+              </button>  
+        </center>
+    </div>
+    <!-- Button trigger modal -->
+    
+      
+      <!-- Modal -->
+      
+      <div class="modal fade " id="whole" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Analyze your all product</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="container">
+                   <div class="row">
+                       {% if pro %}
+                        {% for pr in pro %}
+                        <div class="col-sm-3">
+                        <div class="card shadow shadow-lg" style="width: 18rem;">
+                            {% if pr.img %}
+                            <img src="{{pr.img.url}}" class="card-img-top" alt="product image">
+                            {% else %}
+                            <img src="{% static 'client/img/bell.png' %}" class="card-img-top" alt="product image">
+                            {% endif %}
+                            <div class="card-body" style="background-color:whitesmoke;">
+                                <h5 class="text-danger text-center">{{pr.name}}</h5>
+                                <h6>Price: {{pr.price}} <span class="float-end">Qty: {{pr.total}}</span> </h6>
+                                <small class="text-justify">{{pr.text}} </small>
+                            </div>
+                                <div class="card-footer text-muted">
+                                   {% comment %} <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-light">Delete   </button>
+                                    </form>  {% endcomment %}
+                                    {{pr.fdate}}
+                                </div>
+                          </div>
+                          
+                        </div>
+                        {% endfor %}
+                       {% else %}
+                          <h5 class="text-danger h3 text-center">Product Not Found</h5>
+                       {% endif %}
+                   </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock side_little %}
 
 {% block table %}
 <div class="container mt-4 mb-5">
     <div class="row">
         <div class="col-sm-6">
-            <h4 class="">Add New Product</h3>
+            <h4 class="">Add New Stock</h3>
             <hr>
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -76,71 +137,6 @@
 {% endblock table %}
 
 {% block cardfeatur %}
-<!-- Button trigger modal -->
-
-  
-  <!-- Modal -->
-  
-  <div class="modal fade " id="whole" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Analyze your all product</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-           <div class="container">
-               <div class="row">
-                   {% if pro %}
-                    {% for pr in pro %}
-                    <div class="col-sm-3">
-                    <div class="card shadow shadow-lg" style="width: 18rem;">
-                        {% if pr.img %}
-                        <img src="{{pr.img.url}}" class="card-img-top" alt="product image">
-                        {% else %}
-                        <img src="{% static 'client/img/bell.png' %}" class="card-img-top" alt="product image">
-                        {% endif %}
-                        <div class="card-body" style="background-color:whitesmoke;">
-                            <h5 class="text-danger text-center">{{pr.name}}</h5>
-                            <h6>Price: {{pr.price}} <span class="float-end">Qty: {{pr.total}}</span> </h6>
-                            <small class="text-justify">{{pr.text}} </small>
-                        </div>
-                            <div class="card-footer text-muted">
-                               {% comment %} <form action="" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-light">Delete   </button>
-                                </form>  {% endcomment %}
-                                {{pr.fdate}}
-                            </div>
-                      </div>
-                      
-                    </div>
-                    {% endfor %}
-                   {% else %}
-                      <h5 class="text-danger h3 text-center">Product Not Found</h5>
-                   {% endif %}
-               </div>
-           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<div class="card-header">
-<p class="h6">Check product :</p>
-
-    <center>
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#whole">
-            Analyze Product
-          </button>  
-    </center>
-</div>
-{% endblock cardfeatur %}
-
-{% block visitors  %}
 <div class="scroll">
     <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">
@@ -169,6 +165,9 @@
           </table>
         </div>
 </div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
 {% endblock visitors  %}
 
 {% block last_one %}
@@ -176,3 +175,7 @@
 
 {% block last_two %}
 {% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

@@ -7,7 +7,7 @@
 {% block table %}
     <div class="card-header">
         <h4 class="float-end">{% now "D, d M Y" %}</h4>
-        <h4>Book Local Appointments <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <h4>Book Local Appointments <span><small style="color:blue;"><p id="demo"></p></small></span> </h4>
         <hr>
     </div>
     <div class="card-body card-rounded">
@@ -88,9 +88,14 @@
 {% endblock side_little %}
 
 {% block cardfeatur %}
-    <h2>dipesh Parmar</h2>
+    <h2>   <i class="far fa-globe-asia"></i></h2>
+    <i class="far fa-bells"></i>
 {% endblock cardfeatur %}
 
 {% block visitors %}
     <h3>dipesh Parmar</h3>
 {% endblock visitors %}
+
+
+{% block chart %}
+{% endblock chart %}

@@ -1,4 +1,22 @@
 {% extends "client/layout.html" %}
+{% load static %}
+{% comment %} {% load ifnotequale %} {% endcomment %}
+{% block mycss %}
+<style>
+    
+        
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 100px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
 
 {% block table %}
 
@@ -40,15 +58,47 @@
                 <div class="col-sm-6">
                     <h4>Staff Out Time</h4>
                     <p class="text-dark"> Good By Staff, will meet soon tomorrow <span>
-                    <button data-bs-toggle="modal" class="btn btn-sm btn-success" data-bs-target="#otime">check</button>
+                        <button data-bs-toggle="modal" class="btn btn-sm btn-success" data-bs-target="#otime">check</button>
                     </span> </p>
-                        {% if mytime %}
+                    <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm table-responsive-xl">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">InTime</th>
+                            <th scope="col">OutTime</th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {% if mytime %}
                             {% for mt in mytime %}
-                                <a href="{% url 'out' mt.id  %}" class="mt-2 btn btn-outline-info"><span class="text-black">{{mt.staff}}</span></a>  
-                            {% endfor %}
-                        {% else %}
-                            <div class="text-danger h4">Not Available Today's attendance</div> 
-                        {% endif %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                  <td class="text-primary h6">{{mt.staff}}</td>
+                                  <td class="text-danger h6">{{mt.in_time}}</td>
+                                      {% if mt.tell is False %}
+                                        <td> 
+                                          <form action="{% url 'outx' mt.id  %}" method="POST" novalidate>
+                                              {% csrf_token %}
+                                              <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-running" style="font-size:20px;"></i>
+                                              </button> 
+                                          </form>
+                                        </td>
+                                      {% else %}
+                                           <td class="text-danger h6">{{mt.out_time}}</td>  
+                                      {% endif %}
+                            </tr> 
+                                  {% endfor %}
+                              {% else %}
+                                  <div class="text-danger h4">Not Available Today's attendance</div> 
+                              {% endif %}
+                        </tbody>
+                        
+                      </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,6 +133,14 @@
 
 {% endblock table %}
 
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+{% block side_little %}
+{% endblock side_little %}
 
 {% block cardfeatur %}
 <div class="">
@@ -100,7 +158,7 @@
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
-                {% now "h:i:s,A" %}
+                <p id="demo"></p>
             </span>
         </div>
     </div>
@@ -110,8 +168,7 @@
 {% endblock visitors  %}
 
 
-{% block last_one %}
-{% endblock last_one %}
+ 
 
-{% block last_two %}
-{% endblock last_two %}
+{% block chart %}
+{% endblock chart %}

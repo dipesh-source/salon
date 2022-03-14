@@ -1,5 +1,5 @@
 {% extends "client/layout.html" %}
-
+{% load static %}
 {% block little %}
 <div class="col-6 col-lg-3 col-md-6">
     <small><marquee style="color:black;">Get Total Appointment</marquee></small>
@@ -97,7 +97,7 @@
 {% block table %}
     <div class="card-header">
         <h4 class="float-end">{% now "D, d M Y" %}</h4>
-        <h4>Book Local Appointments <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <h4>Book Local Appointments <span><small style="color:blue;"><p id="demo"></p></small></span> </h4>
         <hr>
         <form action="" method="GET">
             <div class="container">
@@ -166,7 +166,9 @@
                         </tr>
                     {% endfor %}
                 {% else %}
-                    <h5 clsas="text-danger">Appointment Not Available</h5>
+                <center>
+                    <img src="{% static 'client/img/product-list.png' %}" class="img-fluid" alt="no data" srcset="">
+                </center>
                 {% endif %}
             </tbody>
           </table>
@@ -184,9 +186,15 @@
 {% endblock side_little %}
 
 {% block cardfeatur %}
-    <h2>dipesh Parmar</h2>
+    <div class="card-header">
+        <img src="{% static 'client/img/no.png' %}" class="img-fluid" alt="my data">
+    </div>
 {% endblock cardfeatur %}
 
 {% block visitors %}
     <h3>dipesh Parmar</h3>
 {% endblock visitors %}
+
+
+{% block chart %}
+{% endblock chart %}

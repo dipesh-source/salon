@@ -1,7 +1,7 @@
 from django.forms import widgets
 import django_filters
 from django_filters import DateFilter,CharFilter
-from .models import Advanced_salary, Appointment, Local_appointment, Salary
+from .models import Advanced_salary, Appointment, Local_appointment, Purchase, Salary
 from django import forms
 
 '''
@@ -36,6 +36,13 @@ class Advanced_filter(django_filters.FilterSet):
         model = Advanced_salary
         fields = ['month','fdate']
   
+'''
+    product sales data
+'''
+class Product_sales(django_filters.FilterSet):
+    class Meta:
+        model = Purchase
+        fields = ['product','name','phone']
 
 
 

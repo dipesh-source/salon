@@ -1,5 +1,5 @@
 {% extends "client/layout.html" %}
-
+{% load static %}
 {% block little %}
     
 {% endblock little %}
@@ -7,12 +7,12 @@
 {% block table %}
     <div class="card-header">
         <h4 class="float-end">{% now "D, d M Y" %}</h4>
-        <h4>Update Your Staff <span><small style="color:blue;">({% now "h:i:s,A" %})</small></span> </h4>
+        <h4>Update Your Staff <span><small style="color:blue;"><p id="demo"></p></small></span> </h4>
         <p class="text-danger font-bold">Note: after update your staff data it will update everywhere in your System..!</p>
         <hr>
     </div>
     <div class="card-body card-rounded">
-        <form action="" method="POST" novalidate>
+        <form action="" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             {% if form %}
                 {% for fm in form %}
@@ -37,6 +37,16 @@
 {% endblock last_two %}
 
 {% block side_little %}
+<div class="card-header">
+    {% if data.profile %}
+        <h3 class="text-center mb-1">{{data.name}}</h3>
+        <img src="{{data.profile.url}}" alt="Profile" class="img-fluid" srcset="">
+    {% else %}
+        <center>
+            <i class="fas fa-user-circle" style="font-size:150px;"></i>
+        </center>
+    {% endif %}     
+</div>
 {% endblock side_little %}
 
 {% block cardfeatur %}
@@ -46,3 +56,6 @@
 {% block visitors %}
     <h3>dipesh Parmar</h3>
 {% endblock visitors %}
+
+{% block chart %}
+{% endblock chart %}

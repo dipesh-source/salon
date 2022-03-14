@@ -19,8 +19,8 @@
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Contact</th>
-                <th scope="col">Hours</th>
-                <th scope="col">Total</th>
+                <th scope="col">Email</th>
+                {% comment %} <th scope="col">Total</th> {% endcomment %}
                 <th scope="col">Get More</th>
               </tr>
             </thead>
@@ -31,9 +31,9 @@
                         <th scope="row">{{forloop.counter}}</th>
                         <td>{{dt.name}}</td>
                         <td>{{dt.phone}}</td>
-                        <td>@mdo</td>
-                        <td>Otto</td>
-                        <td><a href="{% url 'twork' dt.name  %}">view</a></td>
+                        <td>{{dt.email}}</td>
+                        {% comment %} <td>Otto</td> {% endcomment %}
+                        <td><a href="{% url 'twork' dt.name  %}"><i class="fas fa-eye"></i></a></td>
                     </tr>
                     {% endfor %}
                 {% else %}
@@ -49,6 +49,15 @@
 
 {% block cardfeatur %}
 <div class="card-header">
+    <h5 class="text-capitalize">staff count</h5>
+    <hr>
+    <p class="h6 text-capitalize"> <marquee>today estimate</marquee> </p>
+    <h1 class="text-center">{{cnt}}</h1>
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+<div class="card-header">
     <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
 </div>
 <div class="px-4 pb-4">
@@ -56,17 +65,14 @@
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
-                {% now "h:i:s,A" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
             </span>
         </div>
     </div>
     <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
         Conversation</button>
 </div>
-{% endblock cardfeatur %}
-
-{% block visitors  %}
-
 {% endblock visitors  %}
 
 {% block last_one %}
@@ -74,3 +80,7 @@
 
 {% block last_two %}
 {% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}
