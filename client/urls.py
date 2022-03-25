@@ -43,8 +43,12 @@ urlpatterns = [
          views.get_month_salary, name='get_salary'),
     path('new-packages/', views.create_packages, name='create_package'),
     path('sales-records/', views.customers_records, name='pro_rec'),
-
-
+    path('available-name/',views.available_packages,name='avail'),
+    path('create-package/<str:pname>/',views.create_package,name='makepack'),
+    path('purchase-package/',views.buy_package,name='buy_pack'),
+    path('premium-member-data/',views.paid_membership_data,name='paid_mem'),
+    path('membership-service/<str:pid>/',views.paid_services_data,name='paid_service'),
+    
     path('reset-password/', auth_view.PasswordResetView.as_view(
         template_name="client/password_reset.html"), name='password_reset'),
     path('reset-password-done/', auth_view.PasswordResetDoneView.as_view(

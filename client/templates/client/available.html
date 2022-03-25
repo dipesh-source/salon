@@ -1,0 +1,72 @@
+{% extends "client/layout.html" %}
+{% load static %}
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+<div class="card-header">
+  
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">  
+  <h4>Available Packages</h4>
+  <hr>
+  <div class="container">
+      <div class="row">
+          {% if data %}
+            {% for dt in data %}
+                <div class="col-sm-3">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <center>
+                                <i class="fas fa-magic"></i>
+                            </center>
+                        </div>
+                        <a href="{% url 'makepack' dt.name %}"> {{dt.name}}</a>
+                        <h4>{{dt.total}}</h4>
+                    </div>
+                </div>
+            {% endfor %}
+          {% else %}
+          <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
+            <h3 class="text-center text-capitalize text-danger">Package Not Available</h3>
+          {% endif %}
+      </div>
+  </div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+ 
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

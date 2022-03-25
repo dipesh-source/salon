@@ -16,7 +16,7 @@
             padding:4px;
              
              
-            height: 360px;
+            height: 600px;
             overflow-x: hidden;
             overflow-y: auto;
             text-align:justify;
@@ -25,21 +25,66 @@
 {% endblock mycss %}
 
 
-
 {% block side_little %}
- 
+<div class="card-body">
+    <h5>Serach Records</h5>
+    <hr>
+    <form action="" method="GET"> 
+        {{form.form.as_p}}
+        <button type="submit" class="btn btn-dark">Serach data</button>
+    </form>
+</div>
 {% endblock side_little %}
 
 {% block table %}
-<div class="scroll">
-   {{form.form.as_p}}
+<div class="card-body">
+    <div class="scroll">
+        <div class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
+            {% if data %}
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="table-danger">
+                  <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">product</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Bought</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for dt in data %}
+                  <tr class="text-capitalize text-primary h6 text-center">
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{dt.product}}</td>
+                    <td>{{dt.name}}</td>
+                    <td>{{dt.phone}}</td>
+                    <td>{{dt.price}}</td>
+                    <td>{{dt.qty}}</td>
+                    <td class="small">{{dt.fdate}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+                      
+              {% else %}
+                  <center class="mb-5 mt-5">
+                    <div class="fa-3x">
+                        <i class="fas fa-spinner fa-pulse"></i>
+                      </div>
+                      <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
+                      <h3 class="text-center text-danger">Records Not Found...!</h3>
+                  </center>
+              {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock table %}
 
 
 {% block cardfeatur %}
- 
- 
+
 {% endblock cardfeatur %}
 
 {% block visitors  %}

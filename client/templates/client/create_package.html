@@ -1,0 +1,126 @@
+{% extends "client/layout.html" %}
+{% load static %}
+{% block mycss %}
+<style>
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+            height: 430px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+<div class="card-header">
+  
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">  
+  <h4>Welcome To {{name}} Package</h4> <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5 " style="background-color:whitesmoke;">
+                <form action="" class="mt-5" method="POST" novalidate>
+                    {% csrf_token %}
+                    {% if form %}
+                        {% for fm in form %}
+                            {{fm.non_field_error}}
+                        {% endfor %}
+                    {% endif %}
+                     
+                    {% comment %} {{form.as_p}} {% endcomment %}
+                    <div class="">
+                        {{form.service.label_tag}}
+                        {{form.service}}
+                        <p class="text-danger h6">{{form.service.errors|striptags}}</p>
+                    </div> <br>
+                    <div class="">
+                        {{form.qty.label_tag}}
+                        {{form.qty}}
+                    </div> <br> 
+                    <div class="">
+                        {{form.price.label_tag}}
+                        {{form.price}}
+                        <p class="text-danger h6">{{form.price.errors|striptags}}</p>
+                    </div> <br>
+                    <button type="submit" class="btn btn-danger">add service</button>
+                </form>
+            </div>
+            <div class="col-sm-7">
+                <div class="scroll">
+                    <div class="table-responsive table-responsive-lg table-responsive-sm table-responsive-md">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Service</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Point</th>
+                                <th scope="col">Created</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% if data %}
+                                    {% for dt in data %}
+                                    <tr>
+                                      <th scope="row">{{forloop.counter}}</th>
+                                      <td>{{dt.service}}</td>
+                                      <td>{{dt.qty}}</td>
+                                      <td>{{dt.price}}</td>
+                                      <td>{{dt.fdate}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
+                                {% endif %}
+                             
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+ 
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

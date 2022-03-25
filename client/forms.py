@@ -36,7 +36,7 @@ class Package_name_form(forms.ModelForm):
 class Create_package_form(forms.ModelForm):
     class Meta:
         model = Create_packages
-        fields = ['fack','service','qty','price']
+        fields = ['service','qty','price']
         labels = {
             # 'fack':'Select Name',
             'service':'Enter Service Name',
@@ -58,10 +58,21 @@ class Create_package_form(forms.ModelForm):
     create the customers packages form
 '''
 class Customers_package_form(forms.ModelForm):
-    pk_name = forms.ModelChoiceField(queryset=Create_packages.objects.all(),label='Select Name',widget=forms.Select(attrs={'class':'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request") # store value of request 
+        xxx = Package_name.objects.filter(user=self.request.user)
+        # self.fields['pk_name'] = Package_name.objects.filter(user=self.request.user)
+        print(self.request.user, xxx) 
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        print(self.request.user) # request now available here also
+        pass
+    # pk_name = forms.ModelChoiceField(queryset=Package_name.objects.all(),label='Select Name',widget=forms.Select(attrs={'class':'form-control'}))
     class Meta:
         model = Customers_package
-        fields = ['pk_name','name','contact','email','advance','total']
+        fields = ['name','contact','email','advance','total']
         labels = {
             'pk_name':'select package',
             'name':'Enter Name',
@@ -82,6 +93,7 @@ class Customers_package_form(forms.ModelForm):
             'name':{'required':'enter name'},
             'contact':{'required':'enter phone number'},
         }
+
         
 
 #####################  all the packages code hehe   ####################

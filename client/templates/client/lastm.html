@@ -1,4 +1,5 @@
 {% extends "client/layout.html" %}
+{% load static %}
 
 {% block little %}
 
@@ -37,7 +38,10 @@
                     </tr>
                     {% endfor %}
                 {% else %}
+                <center>
+                    <img src="{% static 'client/img/product-list.png' %}" class="img-fluid" alt="data not found" srcset="">
                     <h2 class="text-danger text-center">Data Not Existing...!</h2>
+                  </center>
                 {% endif %}
             </tbody>
           </table>

@@ -1,5 +1,5 @@
 {% extends "client/layout.html" %}
-
+{% load static %}
 {% block little %}
 
 {% endblock little %}
@@ -36,9 +36,11 @@
                     </tr>
                 {% endfor %}
             {% else %}
-                <hr class="bg-danger">
-                <h3 class="text-danger text-center">Data not available</h3>
-            {% endif %}
+                  <hr class="bg-danger">
+                  <center>
+                    <img src="{% static 'client/img/product-list.png' %}" class="img-fluid" alt="data not found" srcset="">
+                  </center>
+                {% endif %}
         </tbody>
       </table>
 </div>

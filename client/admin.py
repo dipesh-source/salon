@@ -61,7 +61,7 @@ class prod(admin.ModelAdmin):
 
 @admin.register(Purchase)
 class Purchase(admin.ModelAdmin):
-    list_display = ['id','user','product','name','phone','price','qty','fdate']
+    list_display = ['id','user','product','pro_name','name','phone','price','qty','fdate']
 
 # @admin.register(Membership)
 # class member(admin.ModelAdmin):

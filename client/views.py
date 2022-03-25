@@ -1,4 +1,4 @@
-from django.http import BadHeaderError, HttpResponse, HttpResponseNotFound
+from django.http import BadHeaderError, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -26,12 +26,16 @@ from .forms import (
     Staff_form, Timeing_form, Salary_form, Service_form,
     Local_appointment, Appointment_form,
     Gallery_form, Feedback_form, Appointment_form,
+    Package_name_form, Create_package_form,
+    Customers_package_form
 )
 from .models import (
-    Advanced_salary, Appointment_data, Purchase, Staff, Timeing, Service, Salary,
-    Product,
-    Local_appointment,
+    Advanced_salary, Appointment_data,
+    Purchase, Staff, Timeing, Service, Salary,
+    Product, Local_appointment,
     Gallery, Feedback, Appointment,
+    Package_name, My_package, Create_packages,
+    Customers_package
 )
 
 
@@ -163,10 +167,130 @@ def delete_appointment(request, delid):
     will create the packages for the customeres
 '''
 
-
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def create_packages(request):
-    return render(request, 'client/package.html')
+    if request.method == 'POST':
+        fm = Package_name_form(request.POST)
+        if fm.is_valid():
+            nm = fm.cleaned_data['name']
+            tt = fm.cleaned_data['total']
+            data = Package_name(user=request.user,name=nm,total=tt)
+            if not Package_name.objects.filter( Q(user=request.user) & Q(name=nm) ).exists():
+                data.save()
+                fm = Package_name_form()
+                messages.success(request,'Package name is created')
+                return redirect('/client/available-name/')
+            else:
+                messages.info(request,f'''{nm} is alredy created''')
+    else:
+        fm = Package_name_form()
+    names = Package_name.objects.filter( user=request.user )
+    context = {'form':fm,'names':names}
+    return render(request, 'client/package.html',context)
 
+'''
+    will display the all availabe package name
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def available_packages(request):
+    data = Package_name.objects.filter( user=request.user )
+    context = {'data':data}
+    return render(request,'client/available.html',context)
+
+'''
+    will create the package as a in session
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def create_package(request,pname):
+    temp = pname 
+    print(temp,'--------------- mission success ----------------------')
+    x = Package_name.objects.filter( Q(user=request.user) & Q(name=pname) ).exists()
+    print(x,temp)
+    if Package_name.objects.filter( Q(user=request.user) & Q(name=pname) ).exists():
+        x = Package_name.objects.filter( Q(user=request.user) & Q(name=pname) ).exists()
+        print(x,temp)
+        print('-------------------------------------')
+        if request.method == 'POST':
+            fm = Create_package_form(request.POST)
+            if fm.is_valid():
+                ser = fm.cleaned_data['service']
+                qt = fm.cleaned_data['qty']
+                pr = fm.cleaned_data['price']
+                # sp = fm.cleaned_data['special']
+                try:
+                    my_pk = Package_name.objects.get( Q(user=request.user) & Q(name=pname) )
+                except ObjectDoesNotExist:
+                    return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Has Incorrect, Check Again Or Refresh The Page</center></h1>')
+                except MultipleObjectsReturned:
+                    return HttpResponseNotFound('<h1 style="margin-top:50px; color:red;"><center>Your Data Returning Multiple, Multiple Object Returning...</center></h1>')
+                fdata = Create_packages(user=request.user,name=my_pk,fack=pname,service=ser,qty=qt,price=pr).save()
+                messages.success(request,f'''{ser} is added to package''')
+                fm = Create_package_form()
+        else:
+            fm = Create_package_form()
+    else:
+        return HttpResponseRedirect('/client/available-name/')
+    data = Create_packages.objects.filter( Q(user=request.user) & Q(fack=pname))
+    context = {'name':pname,'form':fm,'data':data}
+    return render(request,'client/create_package.html',context)
+
+'''
+    who customer will buy package that form will render 
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def buy_package(request):
+    if request.method == 'POST':
+        fm = Customers_package_form(request.POST, request = request)
+        if fm.is_valid():
+            pri = request.POST.get('private')
+            # pnm = fm.cleaned_data['pk_name']
+            nm = fm.cleaned_data['name']
+            '''
+                mst be unique name
+            '''
+            con = fm.cleaned_data['contact']
+            em = fm.cleaned_data['email']
+            ad = fm.cleaned_data['advance']
+            tt = fm.cleaned_data['total']
+            #         z = Create_packages.objects.filter( Q(user=request.user) & Q(fack=pri))
+            #         print(z)
+            #         if not z.exists():
+            #             print('data is null till now')
+            #         else:
+            #             print('data isi full field')
+            try:
+                if not Customers_package.objects.filter( Q(user=request.user) & Q(name=nm) ).exists():
+                    z = Create_packages.objects.filter( Q(user=request.user) & Q(fack=pri))
+                    print(z)
+                    if not z.exists():
+                        return HttpResponse("<h1>Services Is Null....</h1>")
+                        # print('data is null till now')
+                    else:
+                        print('data isi full field')
+                        get_id = Package_name.objects.get( Q(user=request.user) & Q(name=pri) )
+                        print('5555555555555555555555555555555',get_id)
+                        store_data = Customers_package(user=request.user,pk_names=get_id,pk_name=pri,name=nm,contact=con,email=em,advance=ad,total=tt)
+                        print(pri,nm,con,em,ad,tt,get_id)
+                        store_data.save()
+                        fm = Customers_package_form(request=request)
+                        messages.success(request,f'''{nm} have purchase {pri} package''')               
+                        check = Create_packages.objects.filter( Q(user=request.user) & Q(fack=pri) )
+                        print('New data',check)
+                        for i in check:
+                            print(i.service,' ',i.qty,' ',i.price)
+                            obj = [
+                                My_package(user=request.user,cust=nm,service=i.service,qty=i.qty,price=i.price)
+                            ]
+                            final = My_package.objects.bulk_create(obj)
+                else:
+                    messages.info(request,f'''{nm} is alredy exists, Take another name''')
+            except Exception:
+                messages.info(request,"Something Went Wrong")
+    else:   
+        fm = Customers_package_form(request = request)
+    private = Package_name.objects.filter(user=request.user)
+    context = {'form':fm,'private':private}
+    return render(request,'client/buy_package.html',context)
 
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def in_time(request):
@@ -623,7 +747,7 @@ def get_today_work(request, sname):
 
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def customers_records(request):
-    data_my = Purchase.objects.filter(user=request.user)
+    data_my = Purchase.objects.filter(user=request.user).order_by("id").reverse()
     formx = Product_sales(request.GET, queryset=data_my)
     data = formx.qs
     context = {'data': data, 'form': formx}
@@ -911,3 +1035,24 @@ def display_timing_rec(request, rec):
     print(data.query)
     context = {'data': data, 'name': rec}
     return render(request, 'client/time_records.html', context)
+
+'''
+    will display all the data 
+    of the paid membership
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def paid_membership_data(request):
+    cs = Customers_package.objects.filter(user=request.user)
+    context = {'data':cs}
+    return render(request,'client/paid_data.html',context)
+
+'''
+    display all the paid services
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def paid_services_data(request,pid):
+    # data = My_package.objects.get( Q(user=request.user) & Q(pk=pid) )
+    data = My_package.objects.filter1( Q(user=request.user) & Q(cust=pid) )
+    print(data)
+    context = {'data':data}
+    return render(request,'client/paid_service.html',context)

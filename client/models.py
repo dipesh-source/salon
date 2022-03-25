@@ -45,7 +45,7 @@ class Create_packages(models.Model):
 class Customers_package(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)
-    pk_names = models.ForeignKey(Create_packages, on_delete=models.CASCADE)
+    pk_names = models.ForeignKey(Package_name, on_delete=models.CASCADE, null=True, blank=True)
     pk_name = models.CharField(max_length=100 )
     name = models.CharField(max_length=100)
     contact = models.PositiveBigIntegerField()
@@ -53,6 +53,9 @@ class Customers_package(models.Model):
     advance = models.PositiveIntegerField(null=True, blank=True)
     total = models.PositiveIntegerField(null=True, blank=True)
     fdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 '''
     who customers have Buy package so, that all services
@@ -296,7 +299,8 @@ class Product(models.Model):
 class Purchase(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    pro_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     phone = models.PositiveBigIntegerField()
     price = models.PositiveIntegerField()

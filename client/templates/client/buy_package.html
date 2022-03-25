@@ -1,0 +1,68 @@
+{% extends "client/layout.html" %}
+{% load static %}
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+<div class="card-header">
+  
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">  
+  <h4>Buy Packages</h4>
+  <hr>
+  <h1>Do not allow null service for buy</h1>
+   <form action="" method="POST">
+       {% csrf_token %}
+       <label for="package">Choose a package:</label>
+        <select name="private" class="form-control" id="private" required>
+            <option value="" >None</option>
+            {% if private %}
+                {% for pri in private %}
+                    <option value="{{pri}}">{{pri}}</option>
+                {% endfor %}
+            {% else %}
+            {% comment %} <option value="">Not Available</option> {% endcomment %}
+            {% endif %}
+        </select> <br>
+       {{form.as_p}}
+       <button type="submit" class="btn btn-outline-success">buy package</button>
+   </form>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+ 
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

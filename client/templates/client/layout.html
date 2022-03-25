@@ -128,17 +128,41 @@
                     <li class="submenu-item ">
                         <a href="{% url 'create_package' %}">Create Package</a>
                     </li>
+                     
                     <li class="submenu-item ">
-                        <a href=" ">My Product</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="layout-vertical-navbar.html">My Gallery</a>
+                        <a href="">Pending</a>
                     </li>
                     
                 </ul>
             </li>
-
-
+            {% comment %} <li
+            class="sidebar-item  ">
+            <a href="{% url 'create_package' %}" class='sidebar-link'>
+                <i class="fas fa-cart-plus"></i>
+                <span>Add Package Service</span>
+            </a>
+            </li> {% endcomment %}
+            <li
+            class="sidebar-item  ">
+            <a href="{% url 'paid_mem' %}" class='sidebar-link'>
+                <i class="far fa-gem"></i>
+                <span>My Member</span>
+            </a>
+            </li>
+            <li
+            class="sidebar-item  ">
+            <a href="{% url 'avail' %}" class='sidebar-link'>
+                <i class="fas fa-binoculars"></i>
+                <span>Available Package</span>
+            </a>
+            </li>
+            <li
+                class="sidebar-item  ">
+                <a href="{% url 'buy_pack' %}" class='sidebar-link'>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>  Buy Package</span>
+                </a>
+            </li>
             <li class="sidebar-title">Staff timing</li>
                        
             <li
@@ -741,7 +765,7 @@
                                         {% endfor %}
                                     {% else %}
                                         <center>
-                                            <img src="{% static 'client/img/no.png' %}" class="img-fluid" alt="" srcset="">
+                                            <img src="{% static 'client/img/lock.webp' %}" class="img-fluid" alt="" srcset="">
                                         </center>
                                         {% comment %} <h4 class="mt  text-center" style="color:red;"><marquee>No Appointment Yet All</marquee></h4> {% endcomment %}
                                     {% endif %}

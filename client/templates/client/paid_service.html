@@ -1,0 +1,79 @@
+{% extends "client/layout.html" %}
+{% load static %}
+{% comment %} {% load ifnotequale %} {% endcomment %}
+{% block mycss %}
+<style>
+    
+        
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 750px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+ 
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+<div class="card-header">
+  
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header"> 
+    <div class="scroll"> 
+    {% if data %}
+        {% for dt in data %}
+            {{dt.cust}} <br>
+            {{dt.service}} <br>
+            {{dt.qty}} <br>
+            {{dt.price}} <br>
+            {{dt.fdate}} <br>
+            {% comment %} {{dt.}} <br> {% endcomment %}
+        {% endfor %}
+    {% endif %}
+    </div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+ 
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

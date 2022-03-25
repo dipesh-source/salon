@@ -1,0 +1,92 @@
+{% extends "client/layout.html" %}
+{% load static %}
+{% comment %} {% load ifnotequale %} {% endcomment %}
+{% block mycss %}
+<style>
+    
+        
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 750px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+ 
+
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+<div class="card-header">
+  
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header"> 
+    <div class="scroll"> 
+   <p class="text-danger h5">Available Paid Member Data</p>
+   <hr class="text-danger">
+   <div class="container">
+       <div class="row">
+           {% if data %}
+                {% for dt in data %}
+                    <div class="col-sm-4">
+                        <a href="{% url 'paid_service' dt.name %}">
+                            <div class="card text-white" style="max-width: 18rem;">
+                                <div class="card-header bg-info h5 text-dark">{{dt.name}}</div>
+                                <div class="card-body bg-light mt-3 bg-body" style="background-color:whitesmoke;">
+                                  <h5 class="card-title"> {{dt.pk_name}}</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+           {% else %}
+                    <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
+           {% endif %}
+       </div>
+       
+   </div>
+    </div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+ 
+</div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+
+{% endblock visitors  %}
+
+{% block last_one %}
+{% endblock last_one %}
+
+{% block last_two %}
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}
