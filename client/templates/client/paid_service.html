@@ -25,23 +25,88 @@
 
 {% block side_little %}
 <div class="card-header">
-  
 </div>
 {% endblock side_little %}
 
 {% block table %}
 <div class="card-header"> 
-    <div class="scroll"> 
-    {% if data %}
-        {% for dt in data %}
-            {{dt.cust}} <br>
-            {{dt.service}} <br>
-            {{dt.qty}} <br>
-            {{dt.price}} <br>
-            {{dt.fdate}} <br>
-            {% comment %} {{dt.}} <br> {% endcomment %}
-        {% endfor %}
-    {% endif %}
+    <h1>{{pk_name}}</h1>
+    <div class="scroll">
+    <!--   services data in table   -->
+    <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Service</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Point</th>
+            <th scope="col">Bought</th>
+            <th scope="col">Check</th>
+            <th scope="col">Clear</th>
+            {% comment %} <th scope="col">Clear</th> {% endcomment %}
+        </tr>
+        </thead>
+        <tbody>
+            {% if data %}
+                {% for dt in data %}
+                <tr class="h6 text-dark">
+                    {% if dt.find is True  %}
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{dt.cust}}</td>
+                        <td class="bg-info">{{dt.service}}</td>
+                        <td>{{dt.qty}}</td>
+                        <td>{{dt.price}}</td>
+                        <td>{{dt.fdate}} </td>    
+                    {% else %}
+                        <th scope="row" style="text-decoration: line-through;">{{forloop.counter}}</th>
+                        <td style="text-decoration: line-through;">{{dt.cust}}</td>
+                        <td style="text-decoration: line-through;" class="bg-info">{{dt.service}}</td>
+                        <td style="text-decoration: line-through;">{{dt.qty}}</td>
+                        <td style="text-decoration: line-through;">{{dt.price}}</td>
+                        <td style="text-decoration: line-through;">{{dt.fdate}} </td>
+                    {% endif %}
+                    
+                {% if dt.find is True %}
+                
+                <td> <a href="{% url 'do_off' dt.id dt.cust dt.service  %}" type="submit" class="btn btn-danger btn-sm"><i class="fas fa-minus"></i></a> </td>
+                {% else %}
+                <td> <a href="{% url 'do_on' dt.id dt.cust dt.service  %}" type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></a> </td>
+                {% endif %}
+
+                  
+                <td> 
+                    {% if dt.find is False %}
+                        <form action="{% url 'do_delete' dt.id dt.cust dt.service  %}" method="POST" novalidate>
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fas fa-thumbs-up"></i> 
+                            </button>
+                        </form>
+                    {% else %}
+                        <center>
+                            <i class="fas fa-question" style="color:red;font-size:20px;"></i>
+                        </center>
+                    {% endif %}
+                </a> 
+                     
+                
+                </td>
+                
+                {% comment %} <td>{{dt.qty}}</td> {% endcomment %}
+                </tr>
+                    {% comment %} {{dt.}} <br> {% endcomment %}
+                {% endfor %}
+            {% else %}
+                <center class="mt-5">
+                    <img src="{% static 'client/img/product-list.png' %}" class="img-fluid" alt="data not found" srcset=""> <br>
+                    <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
+                </center>
+            {% endif %}
+        </tbody>
+      </table>
+    </div> 
     </div>
 </div>
 {% endblock table %}

@@ -6,6 +6,12 @@
 {% endblock little %}
 
 {% block side_little %}
+<div class="card-header">
+    <h3 class="text-capitalize">my total work</h3> <hr>
+    <h1 class="text-center">
+        {{mcnt}}
+    </h1>
+</div>
 {% endblock side_little %}
 
 {% block table %}
@@ -51,15 +57,7 @@
 {% endblock table %}
 
 {% block cardfeatur %}
-<div class="card-header">
-    <h3 class="text-capitalize">my total work</h3> <hr>
-    <h1 class="text-center">
-        {{mcnt}}
-    </h1>
-</div>
-{% endblock cardfeatur %}
 
-{% block visitors  %}
 <div class="card-header">
     <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
 </div>
@@ -76,6 +74,9 @@
     <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
         Conversation</button>
 </div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
 {% endblock visitors  %}
 
 {% block last_one %}

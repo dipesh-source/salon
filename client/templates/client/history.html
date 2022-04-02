@@ -1,0 +1,134 @@
+{% extends "client/layout.html" %}
+{% load static %}
+{% block mycss %}
+<style> 
+        div.scroll {
+            margin:4px, 4px;
+            padding:4px;
+             
+             
+            height: 750px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align:justify;
+        }
+    </style>
+{% endblock mycss %}
+{% block little %}
+
+{% endblock little %}
+
+{% block side_little %}
+<div class="card-header">
+<h5 class="text-primary">Get Filter</h5>
+<form action="" method="GET">
+    {% if form %}
+        {% comment %} {{form.form.as_p}} {% endcomment %}
+        <div>
+            <label for="customer">Customer</label>
+            {% comment %} {{form.form.cust.label_tag}} {% endcomment %}
+            {{form.form.cust}}
+        </div>  
+        <div>
+            <label for="package">Package</label>
+            {% comment %} {{form.form.fack.label_tag}} {% endcomment %}
+            {{form.form.fack}}
+        </div>  
+        <div>
+            {{form.form.service.label_tag}}
+            {{form.form.service}}
+        </div>  <br>
+    {% endif %}
+    <button type="submit" class="btn btn-success ">Filter <i class="fas fa-filter"></i></button>
+</form>
+</div>
+{% endblock side_little %}
+
+{% block table %}
+<div class="card-header">  
+<h4>Packages History <span> <img src="{% static 'client/img/info.gif' %}" style="width:50px;" alt="info" srcset=""> </span> </h4>
+<small class="h6 text-danger">Besides history data there is no more backup, after deleted this data it will remove permanently from your system.</small>
+<hr>
+</div>
+<div class="card-body">
+    <div class="scroll">
+    <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Package</th>
+                <th scope="col">Service</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Price</th>
+                <th scope="col">Check</th>
+                <th scope="col">Bought</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for dt in data %}
+                        <tr class="h6">
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{dt.cust}}</td>
+                        <td>{{dt.fack}}</td>
+                        <td>{{dt.service}}</td>
+                        <td>{{dt.qty}}</td>
+                        <td>{{dt.price}}</td>
+                        <td>{{dt.find}}</td>
+                        <td>{{dt.fdate}}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <center>
+                        <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="not-found" srcset="">
+                        <h3 class="text-center text-danger">History Not Found</h3>
+                    </center>
+                {% endif %}
+            </tbody>
+          </table>
+    </div>
+</div>
+</div>
+{% endblock table %}
+
+{% block cardfeatur %}
+<div class="card-header">
+    <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
+</div>
+<div class="px-4 pb-4">
+    <div class="card-content">
+        <div class="recent-message d-flex px-4 py-3">
+            <span class="text-center text-success font-weight-bold h5">
+                {% now "D, d M Y" %}
+                {% comment %} {% now "h:i:s,A" %} {% endcomment %}
+                <p id="demo"></p>
+            </span>
+        </div>
+    </div>
+    <a href="{% url 'history' %}" class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>History <i class="fas fa-history" style="font-size:20px;"></i> </a>
+</div>
+
+{% endblock cardfeatur %}
+
+{% block visitors  %}
+<div class="card-header">
+    <a href="" data-bs-toggle="modal"  data-bs-target="#today">
+        <i class="fas fa-gift" style="font-size:40px;color:green;"></i>
+</a>
+</div>
+{% endblock visitors  %}
+
+{% block last_one %}
+
+{% endblock last_one %}
+
+{% block last_two %}
+ 
+    
+{% endblock last_two %}
+
+
+{% block chart %}
+{% endblock chart %}

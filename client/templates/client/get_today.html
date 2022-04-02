@@ -6,6 +6,12 @@
 {% endblock little %}
 
 {% block side_little %}
+    <div class="p-3 h5">
+        Attended appointment
+    </div>
+    <center>
+        <h1 lass="text-center">{{total}}</h1>    
+    </center>
 {% endblock side_little %}
 
 {% block table %}
@@ -52,14 +58,6 @@
 {% endblock table %}
 
 {% block cardfeatur %}
-<div class="p-3 h5">
-    Attended appointment
-</div>
-<h1 class="text-center">{{total}}</h1>
-
-{% endblock cardfeatur %}
-
-{% block visitors  %}
 <div class="card-header">
     <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
 </div>
@@ -76,6 +74,9 @@
     <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
         Conversation</button>
 </div>
+{% endblock cardfeatur %}
+
+{% block visitors  %}
 
 {% endblock visitors  %}
 

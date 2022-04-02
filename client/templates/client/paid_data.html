@@ -39,7 +39,7 @@
            {% if data %}
                 {% for dt in data %}
                     <div class="col-sm-4">
-                        <a href="{% url 'paid_service' dt.name %}">
+                        <a href="{% url 'paid_service' dt.name dt.pk_name %}">
                             <div class="card text-white" style="max-width: 18rem;">
                                 <div class="card-header bg-info h5 text-dark">{{dt.name}}</div>
                                 <div class="card-body bg-light mt-3 bg-body" style="background-color:whitesmoke;">

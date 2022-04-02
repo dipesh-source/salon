@@ -47,8 +47,14 @@ urlpatterns = [
     path('create-package/<str:pname>/',views.create_package,name='makepack'),
     path('purchase-package/',views.buy_package,name='buy_pack'),
     path('premium-member-data/',views.paid_membership_data,name='paid_mem'),
-    path('membership-service/<str:pid>/',views.paid_services_data,name='paid_service'),
-    
+    path('membership-service/<str:pid>/<str:p_name>/',views.paid_services_data,name='paid_service'),
+    path('do-off/<int:off>/<str:cust>/<str:service>/',views.do_off_boolean,name="do_off"),
+    path('do-on/<int:on>/<str:cust>/<str:service>/',views.do_on_boolean,name="do_on"),
+    path('do-delete-data/<int:sid>/<str:cust>/<str:ser>/',views.do_delete,name='do_delete'),
+    path('back-to-home/',views.back_to_home,name='back_home'),
+    path('package-history/',views.package_history,name="history"),
+
+
     path('reset-password/', auth_view.PasswordResetView.as_view(
         template_name="client/password_reset.html"), name='password_reset'),
     path('reset-password-done/', auth_view.PasswordResetDoneView.as_view(

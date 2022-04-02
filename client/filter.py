@@ -1,8 +1,29 @@
 from django.forms import widgets
 import django_filters
 from django_filters import DateFilter,CharFilter
-from .models import Advanced_salary, Appointment, Local_appointment, Purchase, Salary
+from .models import (Advanced_salary, Appointment, 
+Local_appointment,
+Purchase, Salary, History_customers_package,
+History_my_package
+ )
 from django import forms
+
+'''
+    history of my packages
+'''
+class History_package_filter(django_filters.FilterSet):
+    class Meta:
+        model = History_my_package
+        fields = ['cust','fack','service']
+
+'''
+    history of customers packages
+'''
+class History_customer_filter(django_filters.FilterSet):
+    class Meta:
+        model = History_customers_package
+        fields = ['pk_name','name','contact']
+
 
 '''
     django filter API for the data the data

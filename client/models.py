@@ -58,6 +58,21 @@ class Customers_package(models.Model):
         return self.name
 
 '''
+    this is the history of the customers packages
+'''
+
+class History_customers_package(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    pk_name = models.CharField(max_length=100 )
+    name = models.CharField(max_length=100)
+    contact = models.PositiveBigIntegerField()
+    email = models.EmailField(max_length=100, null=True, blank=True)
+    advance = models.PositiveIntegerField(null=True, blank=True)
+    total = models.PositiveIntegerField(null=True, blank=True)
+    fdate = models.DateTimeField(auto_now_add=True)
+
+'''
     who customers have Buy package so, that all services
     will be stored here by Create Bulk Query 
 '''
@@ -71,7 +86,24 @@ class My_package(models.Model):
     qty = models.PositiveSmallIntegerField(null=True, blank=True)
     price = models.PositiveBigIntegerField()
     special = models.PositiveIntegerField(null=True, blank=True)
+    find = models.BooleanField(default=True, null=True, blank=True)
     fdate = models.DateTimeField(auto_now_add=True)
+
+'''
+    this is the history of the my packages
+'''
+class History_my_package(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    cust = models.CharField(max_length=100, null=True, blank=True)
+    fack = models.CharField(max_length=100, null=True, blank=True)
+    service = models.CharField(max_length=100)
+    qty = models.PositiveSmallIntegerField(null=True, blank=True)
+    price = models.PositiveBigIntegerField()
+    special = models.PositiveIntegerField(null=True, blank=True)
+    find = models.BooleanField(default=True, null=True, blank=True)
+    fdate = models.DateTimeField(auto_now_add=True)
+
 
 '''
     staff table

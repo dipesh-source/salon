@@ -5,10 +5,12 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.db.models import Q
+from django.urls import reverse
 from .filter import ( 
     App_filter, Local_filter,
     Salary_filter, Advanced_filter,
-    Product_sales
+    Product_sales, History_package_filter,
+    History_customer_filter
 )
 from datetime import date, timedelta
 from django.utils import timezone
@@ -30,7 +32,7 @@ from .forms import (
     Customers_package_form
 )
 from .models import (
-    Advanced_salary, Appointment_data,
+    Advanced_salary, Appointment_data, History_customers_package, History_my_package,
     Purchase, Staff, Timeing, Service, Salary,
     Product, Local_appointment,
     Gallery, Feedback, Appointment,
@@ -52,6 +54,10 @@ def client_home(request):
             ser = appf.cleaned_data['service']
             # stf = appf.cleaned_data['staff']
             sff = request.POST.get('mystf')
+            if un is None:
+                print('UN is None ', un)
+            else:
+                print('Not Null ',un )
             print('dipesh ###########################', sff)
             try:
                 lela = Staff.objects.get(Q(user=request.user) & Q(name=sff))
@@ -63,28 +69,45 @@ def client_home(request):
                 if not working in future 
                 so, change the date validation
             '''
-            # if datetime.date.today() == dt:
+            
             apt = Appointment(user=request.user, uniq=un, customer=cu,
-                              phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
-            if Appointment.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists() or Appointment_data.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists(): 
-                messages.error(request, f"""Create unique, already data exists with {un}""")
-            elif Appointment.objects.filter(Q(user=request.user) & Q(customer=cu)).exists():
-                messages.error(
-                    request, f"""{cu} is alredy booked""")
-            elif dt < datetime.date.today():
-                messages.info(request,f"""select correct date,{dt} is not valid""")
-            else:
-                apt.save()
-                messages.success(request, 'Appointment Book Successfully')
-                appf = Appointment_form()
-            #     messages.success(request, 'Appointment Book Successfully')
-            # elif dt >= datetime.date.today():
-            #     what = Appointment_data(user=request.user, uniq=un, customer=cu,
-            #                   phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
-            #     what.save()
-            #     messages.success(request, 'Appointment Book Successfully')
-            # else:
-            #     messages.error(request,f'''Selected {dt}, Select Correct Date''')
+                                phone=ph, datex=dt, timex=tm, service=ser, staff=lela)
+            try:
+                if un is not None:
+                    if Appointment.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists() or Appointment_data.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists(): 
+                        messages.error(request, f"""Create unique, already data exists with {un}""")
+                    # else:
+                    #     Appointment.objects.filter( user=request.user ).exists() or Appointment_data.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists()
+                    #     messages.error(request, f"""Create unique, already data exists with {un}""")
+                    elif Appointment.objects.filter(Q(user=request.user) & Q(customer=cu)).exists():
+                        messages.error(
+                            request, f"""{cu} is alredy booked""")
+                    elif dt < datetime.date.today():
+                        messages.info(request,f"""select correct date,{dt} is not valid""")
+                    else:
+                        apt.save()
+                        messages.success(request, 'Appointment Book Successfully')
+                        appf = Appointment_form()
+                        return HttpResponseRedirect('/client/homepage/')
+                else:
+                    # if Appointment.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists() or Appointment_data.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists(): 
+                    #     messages.error(request, f"""Create unique, already data exists with {un}""")
+                    # else:
+                    #     Appointment.objects.filter( user=request.user ).exists() or Appointment_data.objects.filter( Q(user=request.user) & Q(uniq=un) ).exists()
+                    #     messages.error(request, f"""Create unique, already data exists with {un}""")
+                    if Appointment.objects.filter(Q(user=request.user) & Q(customer=cu)).exists():
+                        messages.error(
+                            request, f"""{cu} is alredy booked""")
+                    elif dt < datetime.date.today():
+                        messages.info(request,f"""select correct date,{dt} is not valid""")
+                    else:
+                        apt.save()
+                        messages.success(request, 'Appointment Book Successfully')
+                        appf = Appointment_form()
+                        return HttpResponseRedirect('/client/homepage/')
+
+            except Exception:
+                messages.error(request,"<center><h1>Something Went Wrong With Data While Object Is Gonna Save To Table</h1></center>")
     else:
         appf = Appointment_form()
     if request.method == 'POST' and 'btnstf' in request.POST:
@@ -95,18 +118,25 @@ def client_home(request):
             phn = stffm.cleaned_data['phone']
             em = stffm.cleaned_data['email']
             sv = stffm.cleaned_data['service']
+            # sf_check = Staff.objects.get( Q(user=request.user) & Q(name=nm) )
+            # print('4444444444444444444444444444444',sf_check)
             change = remove(nm)
-            if Staff.objects.filter(Q(user=request.user) & Q(name=nm)).exists():
+            z = Staff.objects.filter(Q(user=request.user) & Q(name=change) & Q(phone=phn)).exists() 
+            print(z,'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
+
+            if Staff.objects.filter(Q(user=request.user) & Q(name=change)).exists():
                 messages.error(
-                    request, f'{nm} is already exists, take another name')
+                    request, f'''{nm} is already exists, take another name''')
                 x = Staff.objects.filter(Q(user=request.user) & Q(service=sv))
                 print(x, '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
             else:
+                # change = remove(nm)
                 sf = Staff(user=request.user, profile=pf,
                            name=change, phone=phn, email=em, service=sv)
                 sf.save()
                 stffm = Staff_form()
                 messages.success(request, 'staff is added')
+                return HttpResponseRedirect('/client/homepage/')
     else:
         stffm = Staff_form()
     app = Appointment_data.objects.filter(user=request.user).count()
@@ -135,8 +165,8 @@ def client_home(request):
     by = Appointment.objects.filter(Q(user=request.user) & Q(
         datex=datetime.date.today()) & Q(timex__range=(x-y, x)))
     user_staff = Staff.objects.filter(user=request.user)
-    print('ttttttttttttttiming ------------', x-y, 'currrrrrent time ', x)
-    print(by, "+++===========================+++")
+    # print('ttttttttttttttiming ------------', x-y, 'currrrrrent time ', x)
+    # print(by, "+++===========================+++")
     print(allapp.query)
     context = {'form': form, 'my_staff': user_staff, 'staform': stffm, 'nextapp': next, 'nexnt': nxct, 'stff': stfff, 'upapp': upapp,
                'toapp': today_ap, 'apsf': apsf, 'appform': appf, 'total': app, 'today': today, 'upcome': upcome, 'allapp': data}
@@ -160,6 +190,8 @@ def delete_appointment(request, delid):
         messages.success(request, "Appoi't Successfully")
     except ObjectDoesNotExist:
         return HttpResponse("<h1>Data Not Found<br></h1>ObjectDoesNotExist Exception Occur...<small><small/>")
+    except MultipleObjectsReturned:
+        return HttpResponse("<h1>Data Not Found<br></h1>MultipleObjectsReturned Exception Occur...<small><small/>")
     return redirect('/client/homepage/')
 
 
@@ -252,21 +284,15 @@ def buy_package(request):
             em = fm.cleaned_data['email']
             ad = fm.cleaned_data['advance']
             tt = fm.cleaned_data['total']
-            #         z = Create_packages.objects.filter( Q(user=request.user) & Q(fack=pri))
-            #         print(z)
-            #         if not z.exists():
-            #             print('data is null till now')
-            #         else:
-            #             print('data isi full field')
             try:
-                if not Customers_package.objects.filter( Q(user=request.user) & Q(name=nm) ).exists():
+                if not Customers_package.objects.filter( Q(user=request.user) & Q(name=nm) & Q(pk_name=pri) ).exists():
                     z = Create_packages.objects.filter( Q(user=request.user) & Q(fack=pri))
                     print(z)
                     if not z.exists():
                         return HttpResponse("<h1>Services Is Null....</h1>")
                         # print('data is null till now')
                     else:
-                        print('data isi full field')
+                        print('data is full field')
                         get_id = Package_name.objects.get( Q(user=request.user) & Q(name=pri) )
                         print('5555555555555555555555555555555',get_id)
                         store_data = Customers_package(user=request.user,pk_names=get_id,pk_name=pri,name=nm,contact=con,email=em,advance=ad,total=tt)
@@ -279,7 +305,7 @@ def buy_package(request):
                         for i in check:
                             print(i.service,' ',i.qty,' ',i.price)
                             obj = [
-                                My_package(user=request.user,cust=nm,service=i.service,qty=i.qty,price=i.price)
+                                My_package(user=request.user,cust=nm,fack=pri,service=i.service,qty=i.qty,price=i.price)
                             ]
                             final = My_package.objects.bulk_create(obj)
                 else:
@@ -487,9 +513,9 @@ def view_localapp(request):
 def local_delete(request, ldel):
     try:
         loc = Local_appointment.objects.get(pk=ldel)
+        loc.delete()
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1 style="color:red;">Your Appointment Not Found</h1>')
-    loc.delete()
     messages.success(request, 'Appointment Deleted...')
     return redirect('/client/get-local-app/')
 
@@ -633,11 +659,14 @@ def get_delete_staff(request):
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def delete_staff(request, rst):
     try:
-        dest = Staff.objects.get(pk=rst)
+        dest = Staff.objects.get( Q(pk=rst) & Q(user=request.user) )
+        print(dest,'e2311111111111111112x2e21xe12x')
+        dest.delete()
+        messages.success(request, 'staff deleted successfully')
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found</h1>')
-    dest.delete()
-    messages.success(request, 'staff deleted successfully')
+    except MultipleObjectsReturned:
+        return HttpResponseNotFound('<h1 style="color:red;">MultipleObjectsReturned Found</h1>')
     return redirect('/client/homepage/')
 
 
@@ -791,7 +820,10 @@ def last_month_data(request, ssname):
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def month_work(request):
     mo_wk = Staff.objects.filter(user=request.user)
-    context = {'data': mo_wk}
+    for ch in mo_wk:
+        print(ch)
+        lela = ch
+    context = {'data': mo_wk,'lol':lela}
     return render(request, 'client/month_work.html', context)
 
 
@@ -1043,16 +1075,129 @@ def display_timing_rec(request, rec):
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
 def paid_membership_data(request):
     cs = Customers_package.objects.filter(user=request.user)
-    context = {'data':cs}
+    cnt = Customers_package.objects.filter(user=request.user).count()
+
+    # data = My_package.objects.filter( Q(user=request.user) & Q(cust=i.name) & Q(fack=i.pk_name))
+    
+    for c in cs:
+        print(c.id,'Django Data')
+        z = My_package.objects.filter( Q(user=request.user) & Q(cust=c.name) & Q(fack=c.pk_name))
+        if not z.exists():
+            print('fffffffffffffffffffffffffff', c.id)
+            try:
+                fast = Customers_package.objects.get( Q(user=request.user) & Q(pk=c.id) )
+                fast.delete()
+                messages.info(request,'Package Is Completed...')
+            except Exception:
+                return HttpResponseNotFound('<h1 style="color:red;">Empty package not deleted, Exception is occur</h1>')
+        else:
+            fastx = Customers_package.objects.get( Q(user=request.user) & Q(pk=c.id) )
+            print('lllllllela star........',fastx.id)
+    #########################################################################
+    for i in cs:
+        data = My_package.objects.filter( Q(user=request.user) & Q(cust=i.name) & Q(fack=i.pk_name))
+        cs = Customers_package.objects.filter(user=request.user)
+        cdata = My_package.objects.filter( Q(user=request.user) & Q(cust=i.name) & Q(fack=i.pk_name)).count()
+        print(f'data is query sets ---------{cdata}------> ', data)
+        print('data is count ', cdata)
+        print('all is good ', i)  
+        # if My_package.objects.filter( Q(user=request.user) & Q(cust=i.name) & Q(fack=i.pk_name)):    
+        # if not data.exists() or cdata == 0:
+        for k in data:
+                print(k.id,k.cust,'2222222222222222222222')
+                del_ser = k.cust
+                # data = My_package.objects.get( Q(user=request.user) & Q(pk=k.id) )
+                # data = Customers_package.objects.get( Q(user=request.user) & Q(name=k.cust) & Q(pk_name=k.fack) )
+                # data.delete()
+                # print('******************************** deleted')
+    context = {'data':cs,'counts':cnt}
     return render(request,'client/paid_data.html',context)
 
 '''
     display all the paid services
 '''
 @user_passes_test(lambda u: u.is_authenticated, login_url='/')
-def paid_services_data(request,pid):
+def paid_services_data(request,pid,p_name):
     # data = My_package.objects.get( Q(user=request.user) & Q(pk=pid) )
-    data = My_package.objects.filter1( Q(user=request.user) & Q(cust=pid) )
+    data = My_package.objects.filter( Q(user=request.user) & Q(cust=pid) & Q(fack=p_name)) 
     print(data)
-    context = {'data':data}
+    context = {'data':data,'pk_name':p_name}
     return render(request,'client/paid_service.html',context)
+
+'''
+    will off the services for the package By (Boolean value)
+'''
+# Reddirect_Variable = reverse()
+
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def do_off_boolean(request, off, cust, service):
+    try:
+        data = My_package.objects.get( Q(user=request.user) & Q(pk=off) & Q(cust=cust)  & Q(service=service) )
+        data.find = False
+        data.save()
+        one = data.cust
+        two = data.fack
+        return HttpResponseRedirect(f'''/client/membership-service/{one}/{two}/''')
+        # print(data,'///////////////',data.cust,data.fack)
+        # return HttpResponse('false is done')
+        # return redirect(Reddirect_Variable)
+        # return redirect(data.get_absolute_url())
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Object Not Found</h1>')
+    except MultipleObjectsReturned:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Multiple Object Return</h1>')
+
+'''
+    will on the services for the package By (Boolean value)
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def do_on_boolean(request, on, cust, service):
+    try:
+        data = My_package.objects.get( Q(user=request.user) & Q(pk=on) & Q(cust=cust)  & Q(service=service) )
+        data.find = True
+        data.save()
+        one = data.cust
+        two = data.fack
+        return HttpResponseRedirect(f'''/client/membership-service/{one}/{two}/''')
+        # return HttpResponse('true is done')
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Object Not Found</h1>')
+    except MultipleObjectsReturned:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Multiple Object Return</h1>')
+
+'''
+    function will delete one by one package services from the user
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def do_delete(request,sid,cust,ser):
+    try:
+        data = My_package.objects.get( Q(user=request.user) & Q(pk=sid) & Q(cust=cust)  & Q(service=ser) )
+        data.delete()
+        messages.success(request,'service deleted successfully')
+        return HttpResponseRedirect('/client/back-to-home/')
+        # one = data.cust
+        # two = data.fack
+        # return HttpResponseRedirect(f'''/client/membership-service/{one}/{two}/''')
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Object Not Found</h1>')
+    except MultipleObjectsReturned:
+        return HttpResponseNotFound('<h1 style="color:red;">Your Data Not Found By Multiple Object Return</h1>')
+
+'''
+    go to home after the delete the services
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def back_to_home(request):
+    return render(request,'client/back_home.html')
+
+'''
+    this is the history of the package
+'''
+@user_passes_test(lambda u: u.is_authenticated, login_url='/')
+def package_history(request):
+    datap = History_my_package.objects.filter(user=request.user).order_by('id').reverse()
+    form = History_package_filter(request.GET, queryset=datap)
+    data = form.qs
+    pur_data = History_customers_package.objects.filter(user=request.user)
+    context = {'data':data,'form':form,'datap':pur_data}
+    return render(request,'client/history.html',context)

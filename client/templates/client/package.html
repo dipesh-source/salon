@@ -24,7 +24,7 @@
 
 {% block side_little %}
 <div class="card-header mb-3 mt-3">
-    <h5 class="text-capitalize">Create package</h5> <hr>
+    <h5 class="text-capitalize">View package</h5> <hr>
     <center>
         <a href="" data-bs-toggle="modal"  data-bs-target="#today">
             {% comment %} <div class="stats-icon blue"> {% endcomment %}
@@ -43,10 +43,36 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h6 class="h6 text-black" style="background-color:whitesmoke;">
-                        pandding
-                        {% comment %} Create various packages by adding name, price and general details required. You can also create multiple packages and tag related services. {% endcomment %}
-                    </h6>
+                     
+                    <h4>Available Package Name's</h4>
+                    <div class="scroll ">
+                        <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+                            <table class="table table-striped table-bordered table-hover table-info">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Created</th>
+                                </tr>
+                                </thead>
+                                <tbody class="h6">
+                                    {% if names %}
+                                        {% for nm in names %}
+                                        <tr>
+                                        <th scope="row">{{forloop.counter}}</th>
+                                        <td>{{nm.name}}</td>
+                                        <td>{{nm.total}}</td>
+                                        <td>{{nm.fdate}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 <!--############ serach today appointment ##############-->
         
                 
@@ -83,36 +109,7 @@
                 </form>
             </div>
             <div class="col-sm-6">
-                <h4>Available Package Name's</h4>
-                <div class="scroll ">
-                    <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
-                        <table class="table table-striped table-bordered table-hover table-info">
-                            <thead>
-                              <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Created</th>
-                              </tr>
-                            </thead>
-                            <tbody class="h6">
-                                {% if names %}
-                                    {% for nm in names %}
-                                    <tr>
-                                      <th scope="row">{{forloop.counter}}</th>
-                                      <td>{{nm.name}}</td>
-                                      <td>{{nm.total}}</td>
-                                      <td>{{nm.fdate}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                {% else %}
-          <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not found" srcset="">
-
-                                {% endif %}
-                            </tbody>
-                          </table>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -124,8 +121,8 @@
 <div class="card-header">
     <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
 </div>
-<div class="px-4 pb-4">
-    <div class="card-content pb-4">
+<div class="px-4 pb-3">
+    <div class="card-content">
         <div class="recent-message d-flex px-4 py-3">
             <span class="text-center text-success font-weight-bold h5">
                 {% now "D, d M Y" %}
@@ -134,8 +131,7 @@
             </span>
         </div>
     </div>
-    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
-        Conversation</button>
+    <a href="{% url 'history' %}" class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>History <i class="fas fa-history" style="font-size:20px;"></i> </a>
 </div>
 {% endblock cardfeatur %}
 

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="margin-top:50px;">
+        <center>
+            <img src="{% static 'client/img/tick.gif' %}" class="img-fluid" alt="tick-data" srcset="">
+            <h1 style="color:red;">Service Is Deleted Successfully</h1> <br><br>
+
+            {% comment %} <a href="{% url 'paid_service' %}">Back to service</a> {% endcomment %}
+
+            <a href="{% url 'paid_mem' %}" style="color:blue;"><h2>Back to member</h2></a>
+        </center>
+    </div>
+</body>
+</html>

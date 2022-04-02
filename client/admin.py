@@ -5,7 +5,9 @@ from .models import (
     Local_appointment, Service,
     Salary, Gallery, Feedback, Timeing,
     Package_name, Create_packages,
-    Customers_package, My_package
+    Customers_package, My_package,
+    History_customers_package, 
+    History_my_package
 )
 
 @admin.register(Package_name)
@@ -20,10 +22,18 @@ class Pack_name(admin.ModelAdmin):
 class Pack_name(admin.ModelAdmin):
     list_display = ['id','user','pk_names','pk_name','name','contact','email','advance','total','fdate']
 
+@admin.register(History_customers_package)
+class Pack_name(admin.ModelAdmin):
+    list_display = ['id','user','pk_name','name','contact','email','advance','total','fdate']
+
+
 @admin.register(My_package)
 class Pack_name(admin.ModelAdmin):
-    list_display = ['id','user','customers','cust','fack','service','qty','price','special','fdate']
+    list_display = ['id','user','customers','cust','fack','service','qty','price','special','find','fdate']
 
+@admin.register(History_my_package)
+class Pack_name(admin.ModelAdmin):
+    list_display = ['id','user','cust','fack','service','qty','price','special','find','fdate']
 
 # @admin.register(Staffwork)
 # class staff(admin.ModelAdmin):

@@ -8,7 +8,7 @@
     <title>Dashboard - Mazer Admin Dashboard</title>
     {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous"> {% endcomment %}
      <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     {% comment %} <link rel="preconnect" href="https://fonts.gstatic.com"> {% endcomment %}
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> {% endcomment %}
@@ -21,6 +21,21 @@
     <link rel="stylesheet" href="{% static 'client/css/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'client/css/app.css' %}">
     {% comment %} <link rel="shortcut icon" href="{% static 'assets/images/favicon.svg' %}" type="image/x-icon"> {% endcomment %}
+    
+    <style>
+        .success{
+            color:green;
+        }
+        .info{
+            color:blue;
+        }
+        .warning{
+            color:yellow;
+        }
+        .error{
+            color:red;
+        }
+    </style>
     {% block mycss %}
     <style>  
         div.scroll {
@@ -332,7 +347,10 @@
 <div class="page-heading">
     {% if messages %}
         {% for mess in messages %}
-            <div class="h5 text-center alert alert-success" style="color:black;">{{mess}}</div>
+        
+        <center>
+            <div {% if mess.tags %} class="{{mess.tags}} h4 pb-3 pt-3 mb-4" {% endif %} style="background-color:white;"><span class="mt-5 mb-5">{{mess}}</span></div>
+        </center>
         {% endfor %}
     {% endif %}
     <div class="float-end">
@@ -1022,6 +1040,9 @@
                                                     </tr>
                                                 {% endfor %}
                                             {% else %}
+                                            <center>
+                                                <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="data not avail" srcset="">
+                                            </center>
                                                 <h3 class="text-danger text-center">Staff Not Available</h3>
                                             {% endif %}
                                                                                   
@@ -1070,16 +1091,18 @@
         <section class="row">
             {% block chart %} 
             <div class="col-sm-6">
-                <div class="card-header">
+                <div class="card-header" class="table-responsive">
                    
-                    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                    <canvas id="myChart"></canvas>
+                    {% comment %} style="width:100%;max-width:600px" {% endcomment %}
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="card-header">
+                <div class="card-header table-responsive">
                     <div
-                    id="myChartx" style=" max-width:600px; height:250px;">
+                    id="myChartx">
                     </div>
+                    {% comment %} style=" max-width:600px; height:250px;" {% endcomment %}
                 </div>
             </div>
             {% endblock chart %}

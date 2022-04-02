@@ -46,7 +46,10 @@
                     </tr>               
                     {% endfor %}
                 {% else %}
-                    <h5 class="text-danger">Staff Member Not Available...</h5>
+                    <center>
+                        <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="not found" srcset="">
+                    </center>
+                    <h5 class="text-danger text-center">Staff Member Not Available...</h5>
                 {% endif %}
             </tbody>
           </table>
