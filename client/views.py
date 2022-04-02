@@ -1198,6 +1198,6 @@ def package_history(request):
     datap = History_my_package.objects.filter(user=request.user).order_by('id').reverse()
     form = History_package_filter(request.GET, queryset=datap)
     data = form.qs
-    pur_data = History_customers_package.objects.filter(user=request.user)
+    pur_data = History_customers_package.objects.filter(user=request.user).order_by('id').reverse()
     context = {'data':data,'form':form,'datap':pur_data}
     return render(request,'client/history.html',context)

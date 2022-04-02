@@ -95,6 +95,74 @@
 
 {% block cardfeatur %}
 <div class="card-header">
+    <center>
+        <a href="" data-bs-toggle="modal"  data-bs-target="#today">
+            <i class="fas fa-history" style="font-size:40px;color:green;"></i>
+        </a>
+        <h5 class="text-center text-danger">purchase history</h5>
+    </center>
+         <!-- Modal -->
+         <div class="modal fade" id="today" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header   bg-success">
+                    <h3 class="modal-title text-white" id="staticBackdropLabel">create package / </h3> <br>
+                    <h3 class="float-end text-white modal-title" style="color:red;"> {% now "D, d M Y" %}</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Package</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Contact</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Advance</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                {% if datap %}
+                                    {% for dp in datap %}
+                                        <tr>
+                                            <th scope="row">{{forloop.counter}}</th>
+                                            <td>{{dp.pk_name}}</td>
+                                            <td>{{dp.name}}</td>
+                                            <td>{{dp.contact}}</td>
+                                            <td>{{dp.email}}</td>
+                                            <td>{{dp.advance}}</td>
+                                            <td>{{dp.total}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <center>
+                                        <img src="{% static 'client/img/empty.svg' %}" class="img-fluid" alt="not-found" srcset="">
+                                        <h3 class="text-center text-danger">History Not Found</h3>
+                                    </center>
+                                {% endif %} 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+                </div>
+            </div>
+            </div>
+        </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="card-header">
     <h4>Today's</h4><span><marquee style="color:red;">Current Local Time</marquee> </span>
 </div>
 <div class="px-4 pb-4">
@@ -113,11 +181,7 @@
 {% endblock cardfeatur %}
 
 {% block visitors  %}
-<div class="card-header">
-    <a href="" data-bs-toggle="modal"  data-bs-target="#today">
-        <i class="fas fa-gift" style="font-size:40px;color:green;"></i>
-</a>
-</div>
+ 
 {% endblock visitors  %}
 
 {% block last_one %}
